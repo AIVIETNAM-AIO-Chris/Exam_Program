@@ -147,20 +147,37 @@ export default function ResultScreen({ questions, answers, onRestart, config, st
     if (!config?.essay_submit_url) return;
     setIsSubmittingOnline(true);
 
+    // Lọc và chỉ định dạng các câu hỏi tự luận để gửi về cho host chấm bài
+    const essayResponses = questions
+      .map((q, idx) => ({ q, ans: answers[idx] }))
+      .filter(({ q }) => q.type === 'essay_text' || q.type === 'essay_code')
+      .map(({ q, ans }) => {
+        let studentAnsText = '';
+        let hasImage = false;
+
+        if (q.type === 'essay_text') {
+          studentAnsText = ans?.text || '(Bỏ trống)';
+          hasImage = !!ans?.image;
+        } else if (q.type === 'essay_code') {
+          studentAnsText = typeof ans === 'string' ? ans : '(Bỏ trống)';
+        }
+
+        return {
+          question_id: q.id,
+          question_type: q.type === 'essay_code' ? `Code (${q.code_language || 'python'})` : 'Văn bản / Ảnh',
+          question_title: q.question,
+          student_answer: studentAnsText,
+          has_attached_image: hasImage ? 'Có đính kèm ảnh' : 'Không',
+          reference_answer: q.answer || 'Không có đáp án mẫu'
+        };
+      });
+
     const payload = {
       exam_title: document.title || "Bài thi",
       student_name: studentName || "Khai báo nặc danh",
       timestamp: new Date().toLocaleString('vi-VN'),
-      score_choice: score !== null ? score : 'N/A',
-      details: questions.map((q, idx) => {
-        const userAns = answers[idx];
-        return {
-          question_id: q.id,
-          type: q.type,
-          question: q.question,
-          answer: q.type === 'essay_text' ? (userAns?.text || '') : (userAns || '')
-        };
-      })
+      choice_score: score !== null ? `${score}/10` : 'N/A',
+      essay_responses: essayResponses
     };
 
     try {
