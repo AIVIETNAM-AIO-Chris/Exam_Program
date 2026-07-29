@@ -142,7 +142,7 @@ Mỗi câu hỏi được lưu độc lập thành một file JSON trong thư m�
   "id": "q002",
   "type": "multiple_choice",
   "difficulty": "Medium",
-  "author": "nam",
+  "author": "Huy",
   "question": "Chọn tất cả các ma trận khả nghịch bên dưới:",
   "options": [
     { "text": "$$\\begin{bmatrix} 1 & 0 \\\\ 0 & 1 \\end{bmatrix}$$" },
@@ -161,7 +161,7 @@ Mỗi câu hỏi được lưu độc lập thành một file JSON trong thư m�
   "id": "q003",
   "type": "essay_text",
   "difficulty": "Hard",
-  "author": "linh",
+  "author": "Huy",
   "question": "Hãy giải thích ý nghĩa của phép biến đổi Gauss-Jordan.",
   "allow_image_upload": true,
   "answer": "Phép biến đổi Gauss-Jordan dùng để đưa ma trận về dạng hàng bậc thang thu gọn...",
@@ -229,22 +229,11 @@ Thư mục sau khi build nằm tại `dist/`, sẵn sàng để deploy lên GitH
 
 ## 👨‍💻 8. Quy Trình Phân Chia Dải ID Khi Soạn Đề (Git Workflow)
 
-Để tránh trùng lặp file và xung đột Git khi nhiều thành viên cùng đóng góp câu hỏi:
-
-- **Thành viên A (Huy):** Từ `q001` đến `q100`
-- **Thành viên B (Nam):** Từ `q101` đến `q200`
-- **Thành viên C (Linh):** Từ `q201` đến `q300`
-- **Thành viên D (Phương):** Từ `q301` đến `q400`
-
 ### Các bước đóng góp:
 1. Tạo branch mới từ `main` (`git checkout -b feat/add-questions-nam`).
 2. Thêm file JSON vào thư mục `questions/` theo đúng dải ID được cấp.
 3. Chạy `npm run dev` để kiểm tra trực quan câu hỏi trên trình duyệt.
 4. Commit và tạo Pull Request (PR) về nhánh `main`.
-�nh viên A (Huy):** Từ `q001` đến `q100`
-* **Thành viên B (Nam):** Từ `q101` đến `q200`
-* **Thành viên C (Linh):** Từ `q201` đến `q300`
-* **Thành viên D (Phương):** Từ `q301` đến `q400`
 
 ### Quy trình đóng góp:
 1. Tạo một nhánh mới từ `main` (ví dụ: `feat/add-questions-huy`).
@@ -254,34 +243,3 @@ Thư mục sau khi build nằm tại `dist/`, sẵn sàng để deploy lên GitH
 5. Tạo Pull Request (PR) về nhánh `main`. Nhờ ít nhất một thành viên khác review trước khi merge.
 
 ---
-
-## 8. Hướng Dẫn Kỹ Thuật Cho Phía Frontend
-
-### Đọc dữ liệu từ `questions/`
-Để tránh việc phải khai báo danh sách file thủ công, lập trình viên Frontend nên thiết lập một script tự động quét thư mục `questions/` trong quá trình build để gom tất cả các file JSON lại thành một mảng dữ liệu thống nhất (hoặc sử dụng tính năng import động của bundler như Vite, Webpack).
-
-### Render Toán học và Code
-* **Công thức Toán:** Sử dụng thư viện **KaTeX** để tăng tốc độ render các ký tự toán dạng `$...$` (inline) và `$$...$$` (block) sang HTML.
-* **Trình soạn thảo Code:** Sử dụng thư viện **Monaco Editor** (giống VS Code) hoặc **CodeMirror** cho các câu hỏi `essay_code` để hỗ trợ auto-complete và tô màu mã nguồn dựa trên trường `code_language`.
-* **Trình duyệt Markdown:** Dùng thư viện `marked` hoặc `react-markdown` để chuyển đổi nội dung câu hỏi và phần giải thích sang HTML hiển thị đầy đủ định dạng.
-
----
-
-## �� 9. Triển Khai Tự Động Lên GitHub Pages (GitHub Actions)
-
-Dự án đã được cấu hçnh sẵn file GitHub Actions Workflow tại [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml).
-
-## 🚀 Hướng dắn kích hoat 1 lần duy nh�t trên GitHub:
-
-1. Truy cập repository của bạn trê���]X��΋���]X����K�RU�QU�SKPRS�P��\��^[W���ܘ[X������
-��][��ʈO�xn�X�
-�Y�\ʈ
-8n��Y[�H�ꛈ��ZJK�ˈ8n�ZH8n�ۈ
-��Z[[�\�[Y[�
-���H
-���\��J���^xn�ۈ8n��\�H���HH��[���[��
-���]X�X�[ۜ�
-�����8n�ۈ
-��]�J����8n��8n�ZH1$Zxn�H��Kxn��H�H�n�[�\���H0ꛈ�[�XZ[��]X�X�[ۜ��e tự động biên dịch và phát hành giao diện bài thi tại đường pdẫn:'�ZH
-��΋��RU�QU�SKPRS�P��\˙�]X��[��^[W���ܘ[K�
-��
