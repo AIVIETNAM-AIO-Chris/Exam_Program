@@ -1,0 +1,13 @@
+{
+  "id": "q002",
+  "type": "essay_code",
+  "difficulty": "Medium",
+  "author": "nam",
+  "question": "Viết một hàm Python trả về ma trận chuyển vị (Transpose) của một ma trận 2D đầu vào.",
+  "images": [],
+  "code_language": "python",
+  "starter_code": "def transpose(matrix: list[list[int]]) -> list[list[int]]:\n    # Write your code here\n    pass",
+  "answer": "def transpose(matrix):\n    return [list(row) for row in zip(*matrix)]",
+  "explanation": "Sử dụng hàm zip(*matrix) để nhóm các cột của ma trận gốc thành các hàng của ma trận chuyển vị.",
+  "tags": ["Linear Algebra", "Matrix", "Programming"]
+}

@@ -1,0 +1,515 @@
+/* Vintage Yellow Design System */
+:root {
+  --font-sans: 'Times New Roman', Times, serif;
+  
+  /* Cấu hình màu vàng cổ (Vintage Paper / Sepia) */
+  --bg-app: #fcf6e8;       /* Nền giấy cổ nhạt */
+  --bg-card: #ffffff;      /* Nền thẻ trắng ngà */
+  --bg-sidebar: #f3e9d2;   /* Nền sidebar vàng đậm hơn */
+  --bg-input: #ffffff;
+  --bg-hover: #ebdca5;     /* Màu hover vàng mật ong */
+
+  --border-color: #dfd4b8; /* Viền nâu nhạt */
+  --border-focus: #b58900; /* Viền nhấn vàng đất */
+  
+  --text-primary: #2b2214;   /* Chữ nâu đậm (dịu hơn đen) */
+  --text-secondary: #5c4c34; /* Chữ phụ */
+  --text-muted: #8d7b60;
+  
+  --accent: #b58900;       /* Điểm nhấn vàng đất cổ điển */
+  --accent-light: rgba(181, 137, 0, 0.1);
+  --accent-hover: #9c7500;
+  
+  --success: #2e7d32;      /* Xanh lá đậm cổ điển */
+  --success-light: #e8f5e9;
+  --warning: #ef6c00;
+  --warning-light: #fff3e0;
+  --danger: #c62828;       /* Đỏ đậm cổ điển */
+  --danger-light: #ffebee;
+  
+  --shadow-sm: 0 1px 3px rgba(43, 34, 20, 0.08);
+  --shadow-md: 0 4px 12px rgba(43, 34, 20, 0.1);
+  --shadow-lg: 0 12px 36px rgba(43, 34, 20, 0.15);
+  
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  
+  --transition-fast: 0.12s ease;
+  --transition-normal: 0.2s ease;
+}
+
+/* Base resets & Font setup */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 14pt; /* Cỡ chữ 14 chuẩn học thuật */
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+}
+
+/* Layout container */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar bên trái */
+.sidebar {
+  width: 240px;
+  background-color: var(--bg-sidebar);
+  border-right: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  padding: 1rem;
+  z-index: 10;
+}
+
+/* Main Content bên phải */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.header {
+  height: 60px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background-color: var(--bg-app);
+  position: sticky;
+  top: 0;
+  z-index: 9;
+}
+
+.content-body {
+  flex: 1;
+  padding: 2rem;
+  max-width: 850px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-sans);
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+/* Card */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.5rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-sans);
+  font-size: 14pt;
+  font-weight: bold;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: #ffffff;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn:hover {
+  background-color: var(--bg-hover);
+  border-color: var(--text-muted);
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: #ffffff;
+  border-color: var(--danger);
+}
+.btn-danger:hover {
+  background-color: #b71c1c;
+  border-color: #b71c1c;
+}
+
+.btn-secondary {
+  background-color: #ffffff;
+  color: var(--text-secondary);
+}
+
+.btn-outline.active {
+  background-color: var(--bg-hover);
+  border-color: var(--accent);
+}
+
+/* Sidebar Question Grid - Câu đã làm chuyển màu xanh lá */
+.question-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  overflow-y: auto;
+  align-content: start;
+}
+
+.grid-item {
+  border-radius: 3px;
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  font-weight: bold;
+  font-size: 9pt;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  padding: 0.2rem 0;
+  min-height: 26px;
+}
+
+.grid-item:hover {
+  background-color: var(--bg-hover);
+}
+
+.grid-item.active {
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 4px var(--accent);
+}
+
+/* YÊU CẦU 3: Câu nào đã được làm thì chuyển màu xanh lá */
+.grid-item.answered {
+  background-color: var(--success) !important;
+  color: #ffffff !important;
+  border-color: var(--success) !important;
+}
+
+.grid-item.flagged {
+  border-color: var(--warning);
+  background-color: var(--warning-light);
+}
+
+/* Option List Items */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  font-size: 12pt;
+}
+
+.option-item:hover {
+  background-color: var(--bg-hover);
+}
+
+.option-item.selected {
+  border-color: var(--accent);
+  background-color: var(--accent-light);
+}
+
+.option-indicator {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.option-item.selected .option-indicator {
+  border-color: var(--accent);
+  background-color: var(--accent);
+}
+
+.option-item.selected .option-indicator::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ffffff;
+}
+
+.multiple-choice .option-indicator {
+  border-radius: var(--radius-sm);
+}
+
+.multiple-choice.option-item.selected .option-indicator::after {
+  content: '✓';
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Essay input styles */
+.essay-textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: #ffffff;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14pt;
+  line-height: 1.5;
+  resize: vertical;
+  outline: none;
+}
+
+.essay-textarea:focus {
+  border-color: var(--border-focus);
+}
+
+.code-editor-container {
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.code-editor-header {
+  background-color: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.5rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.code-editor-textarea {
+  width: 100%;
+  min-height: 200px;
+  background: transparent;
+  color: var(--text-primary);
+  border: none;
+  outline: none;
+  padding: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12pt;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+/* Image Upload Container */
+.upload-container {
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  margin-top: 0.75rem;
+}
+
+.upload-container:hover {
+  background-color: var(--bg-hover);
+}
+
+.uploaded-image-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-color);
+}
+
+/* Timer Section in Sidebar */
+.timer-widget {
+  margin-bottom: 1.5rem;
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.timer-label {
+  font-size: 12pt;
+  font-weight: bold;
+  color: var(--text-secondary);
+}
+
+.timer-countdown {
+  font-size: 24pt;
+  font-weight: bold;
+}
+
+.timer-countdown.danger {
+  color: var(--danger);
+}
+
+/* Math block, LaTeX, & Markdown renderer */
+.question-text {
+  font-size: 12pt;
+  line-height: 1.5;
+}
+
+.question-text p {
+  margin-bottom: 0.75rem;
+}
+
+.katex-display {
+  margin: 0.75rem 0;
+  overflow-x: auto;
+  padding: 0.25rem 0;
+}
+
+/* Nav Actions */
+.nav-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+/* YÊU CẦU 5: Sau khi nộp bài, hiện lại danh sách câu hỏi và đáp án.
+   Các câu đúng sẽ có màu xanh lá và câu sai có màu đỏ. */
+.review-question-item {
+  border-left: 6px solid var(--border-color);
+  padding-left: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.review-question-item.correct {
+  border-left-color: var(--success);
+  background-color: rgba(46, 125, 50, 0.05); /* Nền xanh lá cực nhẹ */
+}
+
+.review-question-item.wrong {
+  border-left-color: var(--danger);
+  background-color: rgba(198, 40, 40, 0.05);  /* Nền đỏ cực nhẹ */
+}
+
+.review-question-item.unanswered {
+  border-left-color: var(--text-muted);
+}
+
+.summary-chevron {
+  transition: transform var(--transition-normal);
+  color: var(--text-muted);
+}
+
+details[open] .summary-chevron {
+  transform: rotate(180deg);
+}
+
+/* Đánh dấu đáp án khi review */
+.result-option.correct-choice {
+  border: 2px solid var(--success) !important;
+  background-color: var(--success-light) !important;
+}
+
+.result-option.wrong-choice {
+  border: 2px solid var(--danger) !important;
+  background-color: var(--danger-light) !important;
+}
+
+.result-badge {
+  align-self: center;
+  margin-left: auto;
+  font-size: 11pt;
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius-sm);
+}
+
+.result-badge.correct { background-color: var(--success); color: #ffffff; }
+.result-badge.wrong { background-color: var(--danger); color: #ffffff; }
+
+.explanation-box {
+  margin-top: 1rem;
+  background-color: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  font-size: 13pt;
+}
+
+.explanation-title {
+  font-weight: bold;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+/* Start screen */
+.start-screen {
+  text-align: center;
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.start-instructions {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.start-instructions li {
+  margin-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: bold;
+  font-size: 16pt;
+}

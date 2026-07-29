@@ -1,0 +1,9 @@
+{
+    "exam_title": "Kiểm tra Neural Network",
+    "timer_minutes": 60,
+    "shuffle_questions": true,
+    "shuffle_options": true,
+    "show_result_after_submit": true,
+    "essay_submit_url": "",
+    "require_student_info": true
+}

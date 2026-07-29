@@ -1,0 +1,90 @@
+[
+    {
+        "_comment": "=== LOẠI 1: TRẮC NGHIỆM CHỌN 1 (single_choice) ===",
+        "id": "q001",
+        "type": "single_choice",
+        "difficulty": "Easy",
+        "author": "your_name",
+
+        "question": "Cho ma trận $$A=\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}$$. Tính định thức của A.",
+
+        "images": [],
+
+        "options": [
+            { "text": "$$2$$" },
+            { "text": "$$-2$$" },
+            { "text": "$$10$$" },
+            { "text": "$$0$$" }
+        ],
+
+        "answer": 1,
+
+        "explanation": "$$\\det(A) = 1 \\times 4 - 2 \\times 3 = -2$$",
+
+        "tags": ["Linear Algebra", "Matrix", "Determinant"]
+    },
+    {
+        "_comment": "=== LOẠI 2: TRẮC NGHIỆM CHỌN NHIỀU (multiple_choice) ===",
+        "id": "q002",
+        "type": "multiple_choice",
+        "difficulty": "Medium",
+        "author": "your_name",
+
+        "question": "Chọn **tất cả** các ma trận là ma trận đối xứng.",
+
+        "images": [],
+
+        "options": [
+            { "text": "$$\\begin{bmatrix}1&2\\\\2&3\\end{bmatrix}$$" },
+            { "text": "$$\\begin{bmatrix}1&0\\\\0&1\\end{bmatrix}$$" },
+            { "text": "$$\\begin{bmatrix}1&2\\\\3&4\\end{bmatrix}$$" },
+            { "text": "$$\\begin{bmatrix}5&7\\\\7&9\\end{bmatrix}$$" }
+        ],
+
+        "answer": [0, 1, 3],
+
+        "explanation": "Ma trận đối xứng thỏa $$A = A^T$$. Các lựa chọn A, B, D đều đối xứng.",
+
+        "tags": ["Linear Algebra", "Matrix", "Symmetric Matrix"]
+    },
+    {
+        "_comment": "=== LOẠI 3: TỰ LUẬN NHẬP VĂN BẢN (essay_text) ===",
+        "id": "q003",
+        "type": "essay_text",
+        "difficulty": "Hard",
+        "author": "your_name",
+
+        "question": "Chứng minh rằng nếu $$A$$ là ma trận vuông cấp $$n$$ và $$\\det(A) \\neq 0$$ thì $$A$$ khả nghịch.",
+
+        "images": [],
+
+        "answer": "Vì det(A) ≠ 0 nên hệ phương trình Ax = 0 chỉ có nghiệm tầm thường...",
+
+        "allow_image_upload": true,
+
+        "explanation": "Sử dụng định lý cơ bản về ma trận khả nghịch...",
+
+        "tags": ["Linear Algebra", "Matrix", "Determinant", "Inverse"]
+    },
+    {
+        "_comment": "=== LOẠI 4: TỰ LUẬN NHẬP CODE (essay_code) ===",
+        "id": "q004",
+        "type": "essay_code",
+        "difficulty": "Medium",
+        "author": "your_name",
+
+        "question": "Viết hàm Python nhận vào ma trận vuông (dạng list of lists) và trả về định thức của ma trận đó.\n\n**Yêu cầu:** Không sử dụng thư viện bên ngoài (numpy, scipy...).",
+
+        "images": [],
+
+        "code_language": "python",
+
+        "starter_code": "def determinant(matrix: list[list[float]]) -> float:\n    # Your code here\n    pass",
+
+        "answer": "def determinant(matrix):\n    n = len(matrix)\n    if n == 1:\n        return matrix[0][0]\n    if n == 2:\n        return matrix[0][0]*matrix[1][1] - matrix[0][1]*matrix[1][0]\n    det = 0\n    for j in range(n):\n        minor = [row[:j]+row[j+1:] for row in matrix[1:]]\n        det += ((-1)**j) * matrix[0][j] * determinant(minor)\n    return det",
+
+        "explanation": "Sử dụng khai triển Laplace theo hàng đầu tiên. Với ma trận cấp 1 và 2 là base case, cấp lớn hơn thì đệ quy theo cofactor.",
+
+        "tags": ["Linear Algebra", "Matrix", "Determinant", "Programming"]
+    }
+]
