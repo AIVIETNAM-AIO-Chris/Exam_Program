@@ -2,8 +2,6 @@
   {
     "id": "q001",
     "type": "single_choice",
-    "difficulty": "Easy",
-    "author": "huy",
     "question": "Cho ma trận $A = \\begin{bmatrix} 1 & 3 \\\\ 2 & 4 \\end{bmatrix}$. Tính định thức $\\det(A)$.",
     "images": [],
     "options": [
@@ -21,28 +19,16 @@
       }
     ],
     "answer": 0,
-    "explanation": "$$\\det(A) = 1 \\times 4 - 3 \\times 2 = 4 - 6 = -2$$",
-    "tags": [
-      "Linear Algebra",
-      "Matrix",
-      "Determinant"
-    ]
+    "explanation": "$$\\det(A) = 1 \\times 4 - 3 \\times 2 = 4 - 6 = -2$$"
   },
   {
     "id": "q002",
     "type": "essay_code",
-    "difficulty": "Medium",
-    "author": "nam",
     "question": "Viết một hàm Python trả về ma trận chuyển vị (Transpose) của một ma trận 2D đầu vào.",
     "images": [],
     "code_language": "python",
     "starter_code": "def transpose(matrix: list[list[int]]) -> list[list[int]]:\n    # Write your code here\n    pass",
     "answer": "def transpose(matrix):\n    return [list(row) for row in zip(*matrix)]",
-    "explanation": "Sử dụng hàm zip(*matrix) để nhóm các cột của ma trận gốc thành các hàng của ma trận chuyển vị.",
-    "tags": [
-      "Linear Algebra",
-      "Matrix",
-      "Programming"
-    ]
+    "explanation": "Sử dụng hàm zip(*matrix) để nhóm các cột của ma trận gốc thành các hàng của ma trận chuyển vị."
   }
 ]

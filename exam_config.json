@@ -4,6 +4,5 @@
     "shuffle_questions": true,
     "shuffle_options": true,
     "show_result_after_submit": true,
-    "essay_submit_url": "https://script.google.com/macros/s/AKfycby4_6QS0YW73gfPexHFpCr1hTkwQyh1d2qS0TNIngiTQuGxi_hVJjTie7d17MHjbDfH/exec",
     "require_student_info": true
 }

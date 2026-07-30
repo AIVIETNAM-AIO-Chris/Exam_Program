@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { renderMarkdownWithMath } from '../utils/katex-renderer';
-import { Download, FileText, ChevronDown, Send, CheckCircle2 } from 'lucide-react';
+import { Download, FileText, ChevronDown } from 'lucide-react';
 
 export default function ResultScreen({ questions, answers, onRestart, config, studentName }) {
-  const [isSubmittingOnline, setIsSubmittingOnline] = useState(false);
-  const [onlineSubmitted, setOnlineSubmitted] = useState(false);
   // 1. Tính toán điểm số (chỉ tính cho trắc nghiệm)
   let totalChoiceQuestions = 0;
   let correctChoiceAnswers = 0;
@@ -142,13 +140,9 @@ export default function ResultScreen({ questions, answers, onRestart, config, st
     URL.revokeObjectURL(url);
   };
 
-  // 3. Gửi bài trực tuyến (Google Apps Script Webhook)
-  const handleOnlineSubmit = async () => {
-    if (!config?.essay_submit_url) return;
-    setIsSubmittingOnline(true);
-
-    // Lọc và chỉ định dạng các câu hỏi tự luận để gửi về cho host chấm bài
-    const essayResponses = questions
+  // 3. Hàm xuất file phần tự luận riêng (để gửi cho giảng viên chấm)
+  const handleExportEssay = (format) => {
+    const essayData = questions
       .map((q, idx) => ({ q, ans: answers[idx] }))
       .filter(({ q }) => q.type === 'essay_text' || q.type === 'essay_code')
       .map(({ q, ans }) => {
@@ -172,30 +166,53 @@ export default function ResultScreen({ questions, answers, onRestart, config, st
         };
       });
 
+    if (essayData.length === 0) return;
+
     const payload = {
       exam_title: document.title || "Bài thi",
       student_name: studentName || "Khai báo nặc danh",
       timestamp: new Date().toLocaleString('vi-VN'),
       choice_score: score !== null ? `${score}/10` : 'N/A',
-      essay_responses: essayResponses
+      essay_responses: essayData
     };
 
-    try {
-      // POST dạng text/plain để tránh CORS preflight với Apps Script
-      await fetch(config.essay_submit_url, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(payload)
+    let fileContent = '';
+    let fileName = `Tu_luan_${(studentName || 'student').replace(/\s+/g, '_')}_${qFormatDate()}.`;
+
+    if (format === 'json') {
+      fileContent = JSON.stringify(payload, null, 2);
+      fileName += 'json';
+    } else {
+      fileContent = `BÀI LÀM TỰ LUẬN\n`;
+      fileContent += `==========================\n`;
+      fileContent += `Bài thi: ${payload.exam_title}\n`;
+      fileContent += `Thí sinh: ${payload.student_name}\n`;
+      fileContent += `Thời gian nộp: ${payload.timestamp}\n`;
+      fileContent += `Điểm trắc nghiệm: ${payload.choice_score}\n`;
+      fileContent += `Tổng số câu tự luận: ${essayData.length}\n\n`;
+      fileContent += `CHI TIẾT CÂU TRẢ LỜI TỰ LUẬN:\n`;
+      fileContent += `--------------------------\n`;
+
+      essayData.forEach((item, i) => {
+        fileContent += `\nCâu ${i + 1} [ID: ${item.question_id}]\n`;
+        fileContent += `Loại: ${item.question_type}\n`;
+        fileContent += `Đề bài: ${item.question_title}\n`;
+        fileContent += `\nBài làm của thí sinh:\n`;
+        fileContent += `${item.student_answer}\n`;
+        fileContent += `\nĐính kèm ảnh: ${item.has_attached_image}\n`;
+        fileContent += `\nĐáp án mẫu tham khảo:\n${item.reference_answer}\n`;
+        fileContent += `--------------------------\n`;
       });
-      setOnlineSubmitted(true);
-      alert('✅ Đã gửi kết quả bài làm về hệ thống thành công!');
-    } catch (err) {
-      console.error("Lỗi nộp bài trực tuyến:", err);
-      alert('❌ Có lỗi khi nộp trực tuyến. Vui lòng tải file .TXT hoặc .JSON để nộp thủ công!');
-    } finally {
-      setIsSubmittingOnline(false);
+      fileName += 'txt';
     }
+
+    const blob = new Blob([fileContent], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    link.click();
+    URL.revokeObjectURL(url);
   };
 
   const qFormatDate = () => {
@@ -225,31 +242,11 @@ export default function ResultScreen({ questions, answers, onRestart, config, st
         </div>
       </div>
 
-      {/* Tải báo cáo nộp bài */}
+      {/* Xuất kết quả bài làm */}
       <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', alignItems: 'center', textAlign: 'center', padding: '1.25rem' }}>
-        <p style={{ fontWeight: 'bold' }}>Nộp bài & Xuất kết quả bài làm</p>
+        <p style={{ fontWeight: 'bold' }}>Xuất kết quả bài làm</p>
 
-        {config?.essay_submit_url && (
-          <div style={{ marginBottom: '0.5rem' }}>
-            {onlineSubmitted ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--success)', fontWeight: 'bold' }}>
-                <CheckCircle2 size={18} /> Đã nộp bài lên hệ thống ban tổ chức thành công!
-              </div>
-            ) : (
-              <button 
-                type="button" 
-                className="btn btn-primary" 
-                onClick={handleOnlineSubmit}
-                disabled={isSubmittingOnline}
-                style={{ fontSize: '12pt', padding: '0.5rem 1.25rem' }}
-              >
-                <Send size={15} /> {isSubmittingOnline ? 'Đang gửi bài...' : 'Gửi bài trực tiếp về Ban tổ chức'}
-              </button>
-            )}
-          </div>
-        )}
-
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
           <button type="button" className="btn btn-secondary" onClick={() => handleExportReport('txt')} style={{ fontSize: '12pt', padding: '0.4rem 0.8rem' }}>
             <FileText size={14} /> Tải báo cáo (.TXT)
           </button>
@@ -257,6 +254,21 @@ export default function ResultScreen({ questions, answers, onRestart, config, st
             <Download size={14} /> Tải data (.JSON)
           </button>
         </div>
+
+        {/* Nút tải riêng phần tự luận (chỉ hiển thị nếu có câu tự luận) */}
+        {totalEssayQuestions > 0 && (
+          <>
+            <p style={{ fontWeight: 'bold', marginTop: '0.5rem', fontSize: '12pt', color: 'var(--text-secondary)' }}>Tải riêng phần tự luận (gửi cho giảng viên chấm bài):</p>
+            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <button type="button" className="btn btn-primary" onClick={() => handleExportEssay('txt')} style={{ fontSize: '12pt', padding: '0.4rem 0.8rem' }}>
+                <FileText size={14} /> Tải tự luận (.TXT)
+              </button>
+              <button type="button" className="btn btn-primary" onClick={() => handleExportEssay('json')} style={{ fontSize: '12pt', padding: '0.4rem 0.8rem' }}>
+                <Download size={14} /> Tải tự luận (.JSON)
+              </button>
+            </div>
+          </>
+        )}
       </div>
 
       {/* YÊU CẦU 5: Hiện lại danh sách tất cả câu hỏi và đáp án tương ứng.

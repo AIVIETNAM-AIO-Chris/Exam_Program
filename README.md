@@ -1,6 +1,6 @@
 # 📝 Hệ Thống Làm Bài Thi & Soạn Đề (Exam Program)
 
-Ứng dụng web Single Page Application (SPA) xây dựng bằng **React + Vite**, hỗ trợ hiển thị công thức toán học LaTeX, trình soạn thảo mã nguồn có tô màu cú pháp, đếm ngược thời gian làm bài và nộp kết quả trực tuyến qua Webhook / Google Sheets.
+Ứng dụng web Single Page Application (SPA) xây dựng bằng **React + Vite**, hỗ trợ hiển thị công thức toán học LaTeX, trình soạn thảo mã nguồn có tô màu cú pháp, đếm ngược thời gian làm bài và xuất kết quả bài làm dạng file.
 
 ---
 
@@ -23,9 +23,9 @@
   - Tự động chấm điểm phần trắc nghiệm theo thang điểm 10.
   - Danh sách xem lại bài làm ở dạng **Toggle/Accordion** (mặc định đóng, mở rộng với icon mũi tên xoay).
   - Đánh dấu màu xanh lá cho câu đúng, màu đỏ cho câu sai.
-- **Giải pháp chấm bài tự luận tĩnh (GitHub Pages Support)**:
-  - Cho phép thí sinh gửi trực tiếp bài làm về Google Sheets của Ban tổ chức qua Webhook (Google Apps Script).
-  - Hỗ trợ xuất file báo cáo kết quả dạng `.TXT` hoặc file dữ liệu `.JSON` để gửi thủ công cho giảng viên.
+- **Xuất kết quả bài làm**:
+  - Hỗ trợ xuất file báo cáo tổng quan kết quả dạng `.TXT` hoặc `.JSON`.
+  - Hỗ trợ tải riêng phần bài tự luận dạng `.TXT` hoặc `.JSON` để gửi cho giảng viên chấm bài.
 
 ---
 
@@ -42,8 +42,7 @@ Exam_Program/
 ├── images/                       # Thư mục lưu trữ hình ảnh tĩnh minh họa
 │
 ├── scripts/                      # Các script tiện ích của dự án
-│   ├── bundle-questions.js       # Auto script gộp tất cả json trong questions/ thành 1 file bundle
-│   └── google_apps_script.js     # Script mẫu Google Apps Script để nhận bài làm về Google Sheets
+│   └── bundle-questions.js       # Auto script gộp tất cả json trong questions/ thành 1 file bundle
 │
 ├── src/                          # Mã nguồn Frontend (React + Vite)
 │   ├── components/               # Các React Component:
@@ -77,7 +76,6 @@ File `exam_config.json` ở thư mục gốc dùng để điều chỉnh các th
     "shuffle_questions": true,
     "shuffle_options": true,
     "show_result_after_submit": true,
-    "essay_submit_url": "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec",
     "require_student_info": true
 }
 ```
@@ -85,7 +83,6 @@ File `exam_config.json` ở thư mục gốc dùng để điều chỉnh các th
 * **`timer_minutes`**: Thời gian làm bài tính bằng phút (mặc định 60).
 * **`shuffle_questions` / `shuffle_options`**: Bật/tắt trộn ngẫu nhiên thứ tự câu hỏi và thứ tự các lựa chọn trắc nghiệm.
 * **`require_student_info`**: Yêu cầu thí sinh nhập **Họ và tên** ở màn hình chờ trước khi bắt đầu làm bài.
-* **`essay_submit_url`**: Webhook URL (Google Apps Script Web App) để tự động nhận bài làm trực tuyến. Nếu để trống `""`, nút nộp bài trực tuyến sẽ tự ẩn.
 
 ---
 
@@ -99,14 +96,11 @@ Mỗi câu hỏi được lưu độc lập thành một file JSON trong thư m�
 | :--- | :--- | :--- | :--- |
 | `id` | `String` | **Có** | ID duy nhất của câu hỏi (trùng với tên file, ví dụ: `"q001"`) |
 | `type` | `String` | **Có** | Một trong 4 loại: `"single_choice"`, `"multiple_choice"`, `"essay_text"`, `"essay_code"` |
-| `difficulty` | `String` | **Có** | Độ khó: `"Easy"`, `"Medium"`, `"Hard"` |
-| `author` | `String` | **Có** | Tên người soạn đề (dùng để quản lý dải ID) |
 | `question` | `String` | **Có** | Nội dung câu hỏi (hỗ trợ Markdown & LaTeX) |
-| `images` | `Array<String>` | Không | Danh sách đường dẫn ảnh minh họa (ví dụ: `["images/q001.png"]`) |
 | `options` | `Array<Object>` | *Trắc nghiệm* | Mỗi phần tử có dạng `{ "text": "$$-2$$" }` hoặc `{ "image": "images/opt_a.png" }` |
 | `answer` | *Nhiều kiểu* | **Có** | Index đúng (`0`), mảng index (`[0, 2]`), hoặc đáp án mẫu tự luận |
+| `images` | `Array<String>` | Không | Danh sách đường dẫn ảnh minh họa (ví dụ: `["images/q001.png"]`) |
 | `explanation` | `String` | Không | Lời giải chi tiết (hỗ trợ Markdown & LaTeX) |
-| `tags` | `Array<String>` | Không | Thẻ chủ đề (ví dụ: `["Matrix", "Determinant"]`) |
 | `allow_image_upload` | `Boolean` | Không | Cho phép thí sinh tải ảnh chụp lời giải (chỉ dùng với `essay_text`) |
 | `code_language` | `String` | *essay_code* | Ngôn ngữ lập trình (`"python"`, `"javascript"`, `"cpp"`, `"java"`, `"c"`) |
 | `starter_code` | `String` | Không | Mã nguồn mẫu ban đầu cung cấp sẵn cho thí sinh (`essay_code`) |
@@ -120,8 +114,6 @@ Mỗi câu hỏi được lưu độc lập thành một file JSON trong thư m�
 {
   "id": "q001",
   "type": "single_choice",
-  "difficulty": "Easy",
-  "author": "huy",
   "question": "Cho ma trận $A = \\begin{bmatrix} 1 & 3 \\\\ 2 & 4 \\end{bmatrix}$. Tính định thức $\\det(A)$.",
   "images": [],
   "options": [
@@ -131,8 +123,7 @@ Mỗi câu hỏi được lưu độc lập thành một file JSON trong thư m�
     { "text": "$$10$$" }
   ],
   "answer": 0,
-  "explanation": "$$\\det(A) = 1 \\times 4 - 3 \\times 2 = 4 - 6 = -2$$",
-  "tags": ["Linear Algebra", "Matrix", "Determinant"]
+  "explanation": "$$\\det(A) = 1 \\times 4 - 3 \\times 2 = 4 - 6 = -2$$"
 }
 ```
 
@@ -141,8 +132,6 @@ Mỗi câu hỏi được lưu độc lập thành một file JSON trong thư m�
 {
   "id": "q002",
   "type": "multiple_choice",
-  "difficulty": "Medium",
-  "author": "Huy",
   "question": "Chọn tất cả các ma trận khả nghịch bên dưới:",
   "options": [
     { "text": "$$\\begin{bmatrix} 1 & 0 \\\\ 0 & 1 \\end{bmatrix}$$" },
@@ -150,8 +139,7 @@ Mỗi câu hỏi được lưu độc lập thành một file JSON trong thư m�
     { "text": "$$\\begin{bmatrix} 2 & 4 \\\\ 1 & 2 \\end{bmatrix}$$" }
   ],
   "answer": [0],
-  "explanation": "Ma trận đơn vị I có det(I) = 1 khác 0 nên khả nghịch.",
-  "tags": ["Matrix", "Inverse"]
+  "explanation": "Ma trận đơn vị I có det(I) = 1 khác 0 nên khả nghịch."
 }
 ```
 
@@ -160,13 +148,10 @@ Mỗi câu hỏi được lưu độc lập thành một file JSON trong thư m�
 {
   "id": "q003",
   "type": "essay_text",
-  "difficulty": "Hard",
-  "author": "Huy",
   "question": "Hãy giải thích ý nghĩa của phép biến đổi Gauss-Jordan.",
   "allow_image_upload": true,
   "answer": "Phép biến đổi Gauss-Jordan dùng để đưa ma trận về dạng hàng bậc thang thu gọn...",
-  "explanation": "Xem tài liệu chương 2.",
-  "tags": ["Linear Algebra"]
+  "explanation": "Xem tài liệu chương 2."
 }
 ```
 
@@ -175,36 +160,17 @@ Mỗi câu hỏi được lưu độc lập thành một file JSON trong thư m�
 {
   "id": "q004",
   "type": "essay_code",
-  "difficulty": "Medium",
-  "author": "phuong",
   "question": "Viết hàm Python tính ma trận chuyển vị.",
   "code_language": "python",
   "starter_code": "def transpose(matrix: list[list[int]]) -> list[list[int]]:\n    # Viết code của bạn ở đây\n    pass",
   "answer": "def transpose(matrix):\n    return [list(row) for row in zip(*matrix)]",
-  "explanation": "Sử dụng hàm zip(*matrix).",
-  "tags": ["Programming", "Python"]
+  "explanation": "Sử dụng hàm zip(*matrix)."
 }
 ```
 
 ---
 
-## 📬 6. Hướng Dẫn Tích Hợp Google Apps Script Chấm Bài Tự Luận
-
-Vì dự án chạy tĩnh trên **GitHub Pages**, bạn có thể tạo một Webhook nhận bài hoàn toàn miễn phí bằng Google Sheets:
-
-1. Mở một **Google Sheets** mới trên Google Drive.
-2. Mở menu **Extensions (Mở rộng)** -> **Apps Script**.
-3. Sao chép toàn bộ mã nguồn trong file `scripts/google_apps_script.js` và dán vào Apps Script Editor.
-4. Nhấp nút **Deploy (Triển khai)** -> **New deployment (Triển khai mới)**:
-   - Loại: **Web app**
-   - Execute as: **Me**
-   - Who has access: **Anyone** *(Bắt buộc chọn Anyone)*
-5. Sao chép đường dẫn **Web App URL** thu được và dán vào trường `"essay_submit_url"` trong file `exam_config.json`.
-6. Tất cả bài nộp (thông tin thí sinh, câu trả lời tự luận văn bản/code, điểm trắc nghiệm) sẽ tự động ghi vào từng hàng của Google Sheet để giảng viên chấm thủ công.
-
----
-
-## 🛠️ 7. Hướng Dẫn Chạy & Đóng Góp Mã Nguồn
+## 🛠️ 6. Hướng Dẫn Chạy & Đóng Góp Mã Nguồn
 
 ### Yêu cầu môi trường:
 - **Node.js** `>= 18.x`
@@ -227,7 +193,7 @@ Thư mục sau khi build nằm tại `dist/`, sẵn sàng để deploy lên GitH
 
 ---
 
-## 👨‍💻 8. Quy Trình Phân Chia Dải ID Khi Soạn Đề (Git Workflow)
+## 👨‍💻 7. Quy Trình Phân Chia Dải ID Khi Soạn Đề (Git Workflow)
 
 ### Các bước đóng góp:
 1. Tạo branch mới từ `main` (`git checkout -b feat/add-questions-nam`).

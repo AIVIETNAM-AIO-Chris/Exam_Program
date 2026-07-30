@@ -1,4 +1,4 @@
-﻿import fs from 'fs';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -45,10 +45,15 @@ try {
       try {
         const fileContent = fs.readFileSync(filePath, 'utf-8');
         const questionData = JSON.parse(fileContent);
-        if (Array.isArray(questionData)) {
-          questions.push(...questionData);
-        } else {
-          questions.push(questionData);
+        const items = Array.isArray(questionData) ? questionData : [questionData];
+
+        for (const item of items) {
+          // Bỏ qua câu hỏi thiếu các trường bắt buộc (id, type, question)
+          if (!item.id || !item.type || !item.question) {
+            console.warn(`⚠️ Bỏ qua câu hỏi trong ${file}: thiếu trường bắt buộc (id, type, hoặc question).`);
+            continue;
+          }
+          questions.push(item);
         }
       } catch (err) {
         console.error(`❌ Lỗi khi đọc hoặc parse file ${file}:`, err.message);

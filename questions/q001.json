@@ -1,8 +1,6 @@
 {
   "id": "q001",
   "type": "single_choice",
-  "difficulty": "Easy",
-  "author": "huy",
   "question": "Cho ma trận $A = \\begin{bmatrix} 1 & 3 \\\\ 2 & 4 \\end{bmatrix}$. Tính định thức $\\det(A)$.",
   "images": [],
   "options": [
@@ -12,6 +10,5 @@
     { "text": "$$10$$" }
   ],
   "answer": 0,
-  "explanation": "$$\\det(A) = 1 \\times 4 - 3 \\times 2 = 4 - 6 = -2$$",
-  "tags": ["Linear Algebra", "Matrix", "Determinant"]
+  "explanation": "$$\\det(A) = 1 \\times 4 - 3 \\times 2 = 4 - 6 = -2$$"
 }
