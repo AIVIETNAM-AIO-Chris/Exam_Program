@@ -14,6 +14,70 @@ const publicImagesDir = path.join(publicDir, 'images');
 const outputDir = path.join(rootDir, 'src', 'data');
 const outputFile = path.join(outputDir, 'questions_bundle.json');
 
+// --- HÀM ĐỌC FILE CODE (.py, .js, ...) VÀ NHÚNG VÀO CÂU HỎI ---
+// Map extension → tên ngôn ngữ cho markdown code block
+const EXT_TO_LANG = {
+  '.py': 'python',
+  '.js': 'javascript',
+  '.ts': 'typescript',
+  '.c': 'c',
+  '.cpp': 'cpp',
+  '.java': 'java',
+  '.rs': 'rust',
+  '.go': 'go',
+};
+
+/**
+ * Đọc file code được tham chiếu trong câu hỏi và nhúng nội dung vào object câu hỏi.
+ * Hỗ trợ 3 trường:
+ *   - question_code_file  → ghép markdown code block vào cuối item.question
+ *   - starter_code_file   → gán nội dung vào item.starter_code
+ *   - answer_file         → gán nội dung vào item.answer
+ * 
+ * @param {object} item - Object câu hỏi
+ * @param {string} sourceFile - Tên file JSON chứa câu hỏi (để log lỗi)
+ */
+function resolveCodeFiles(item, sourceFile) {
+  // 1. question_code_file → ghép code block vào cuối question
+  if (item.question_code_file) {
+    const filePath = path.join(questionsDir, item.question_code_file);
+    if (fs.existsSync(filePath)) {
+      const code = fs.readFileSync(filePath, 'utf-8').trimEnd();
+      const ext = path.extname(filePath).toLowerCase();
+      const lang = item.code_language || EXT_TO_LANG[ext] || '';
+      item.question = (item.question || '') + `\n\n\`\`\`${lang}\n${code}\n\`\`\``;
+      console.log(`   📄 Đã nhúng code đề bài từ: ${item.question_code_file}`);
+    } else {
+      console.warn(`   ⚠️ [${sourceFile}] Không tìm thấy file: ${item.question_code_file}`);
+    }
+    delete item.question_code_file;
+  }
+
+  // 2. starter_code_file → gán vào starter_code
+  if (item.starter_code_file) {
+    const filePath = path.join(questionsDir, item.starter_code_file);
+    if (fs.existsSync(filePath)) {
+      item.starter_code = fs.readFileSync(filePath, 'utf-8').trimEnd();
+      console.log(`   📄 Đã nhúng starter code từ: ${item.starter_code_file}`);
+    } else {
+      console.warn(`   ⚠️ [${sourceFile}] Không tìm thấy file: ${item.starter_code_file}`);
+    }
+    delete item.starter_code_file;
+  }
+
+  // 3. answer_file → gán vào answer
+  if (item.answer_file) {
+    const filePath = path.join(questionsDir, item.answer_file);
+    if (fs.existsSync(filePath)) {
+      item.answer = fs.readFileSync(filePath, 'utf-8').trimEnd();
+      console.log(`   📄 Đã nhúng answer code từ: ${item.answer_file}`);
+    } else {
+      console.warn(`   ⚠️ [${sourceFile}] Không tìm thấy file: ${item.answer_file}`);
+    }
+    delete item.answer_file;
+  }
+}
+
 console.log('--- BẮT ĐẦU GỘP CÂU HỎI VÀ ĐỒNG BỘ NGUYÊN LIỆU ---');
 
 try {
@@ -53,6 +117,8 @@ try {
             console.warn(`⚠️ Bỏ qua câu hỏi trong ${file}: thiếu trường bắt buộc (id, type, hoặc question).`);
             continue;
           }
+          // Đọc file code tham chiếu (nếu có) và nhúng vào câu hỏi
+          resolveCodeFiles(item, file);
           questions.push(item);
         }
       } catch (err) {

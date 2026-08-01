@@ -1,34 +1,27 @@
 [
   {
     "id": "q001",
-    "type": "single_choice",
-    "question": "Cho ma trận $A = \\begin{bmatrix} 1 & 3 \\\\ 2 & 4 \\end{bmatrix}$. Tính định thức $\\det(A)$.",
-    "images": [],
-    "options": [
-      {
-        "text": "$$-2$$"
-      },
-      {
-        "text": "$$2$$"
-      },
-      {
-        "text": "$$-10$$"
-      },
-      {
-        "text": "$$10$$"
-      }
-    ],
-    "answer": 0,
-    "explanation": "$$\\det(A) = 1 \\times 4 - 3 \\times 2 = 4 - 6 = -2$$"
+    "type": "essay_code",
+    "question": "Cho công thức Binary Cross Entropy như sau: $$L(y, \\hat{y}) = -\\sum y_i \\log(\\hat{y}_i) + (1-y_i)\\log(1-\\hat{y}_i)$$, hãy viết code tính BCE",
+    "starter_code": "import numpy as np\r\n\r\ndef compute_bce(y_true, y_pred):\r\n    \"\"\"\r\n    Tính Binary Cross Entropy\r\n    Args:\r\n    - y_true: True labels, có shape (batch_size, 1)\r\n    - y_pred: Predicted probabilities, có shape (batch_size, 1)\r\n    Returns:\r\n    - bce: Binary Cross Entropy Loss, có shape (1,)\r\n    \"\"\"\r\n    # YOUR CODE HERE\r\n    pass",
+    "answer": "import numpy as np\r\n\r\ndef compute_bce(y_true, y_pred):\r\n    \"\"\"\r\n    Tính Binary Cross Entropy\r\n    Args:\r\n    - y_true: True labels, có shape (batch_size, 1)\r\n    - y_pred: Predicted probabilities, có shape (batch_size, 1)\r\n    Returns:\r\n    - bce: Binary Cross Entropy Loss, có shape (1,)\r\n    \"\"\"\r\n    loss = np.mean(-(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred)))\r\n    return loss"
   },
   {
-    "id": "q002",
+    "id": "003",
     "type": "essay_code",
-    "question": "Viết một hàm Python trả về ma trận chuyển vị (Transpose) của một ma trận 2D đầu vào.",
-    "images": [],
+    "question": "Cho lớp Linear như dưới đây, hãy hoàn thành đoạn logic còn thiếu",
     "code_language": "python",
-    "starter_code": "def transpose(matrix: list[list[int]]) -> list[list[int]]:\n    # Write your code here\n    pass",
-    "answer": "def transpose(matrix):\n    return [list(row) for row in zip(*matrix)]",
-    "explanation": "Sử dụng hàm zip(*matrix) để nhóm các cột của ma trận gốc thành các hàng của ma trận chuyển vị."
+    "explaination": "Dùng torch.random.randn() khởi tạo trọng số và torch.zeros() khởi tạo bias",
+    "starter_code": "import numpy as np\n\nclass Linear:\n    def __init__(self, in_features, out_features):\n        \"\"\"\n        Khởi tạo lớp Linear\n        Args:\n        - in_features: Số lượng features đầu vào\n        - out_features: Số lượng features đầu ra\n        \"\"\"\n        self.weight = \"YOUR CODE HERE\"\n        self.bias = \"YOUR CODE HERE\"\n\n        self.grad_weight = None\n        self.grad_bias = None\n        self.x = None\n\n    def forward(self, x):\n        \"\"\"\n        Thực hiện phép tính Linear\n        Args:\n        - x: Input features, có shape (batch_size, in_features)\n\n        Returns:\n        - z: Output features, có shape (batch_size, out_features)\n        \"\"\"\n        pass\n\n    def backward(self, grad_z):\n        \"\"\"\n        Tính toán gradient cho weight và bias\n        Args:\n        - grad_z: Gradient của hàm mất mát theo output z, có shape (batch_size, out_features)\n        \n        Returns:\n        - grad_w: Gradient của hàm mất mát theo weight, có shape (in_features, out_features)\n        - grad_b: Gradient của hàm mất mát theo bias, có shape (out_features)\n        - grad_x: Gradient của hàm mất mát theo input x, có shape (batch_size, in_features)\n        \"\"\"\n        pass",
+    "answer": "import numpy as np\r\n\r\nclass Linear:\r\n    def __init__(self, in_features, out_features):\r\n        \"\"\"\r\n        Khởi tạo lớp Linear\r\n        Args:\r\n        - in_features: Số lượng features đầu vào\r\n        - out_features: Số lượng features đầu ra\r\n        \"\"\"\r\n        self.weight = np.random.randn(in_features, out_features) / np.sqrt(in_features)\r\n        self.bias = np.zeros(out_features)\r\n\r\n    def forward(self, x):\r\n        \"\"\"\r\n        Thực hiện phép tính Linear\r\n        Args:\r\n        - x: Input features, có shape (batch_size, in_features)\r\n\r\n        Returns:\r\n        - z: Output features, có shape (batch_size, out_features)\r\n        \"\"\"\r\n        return x @ self.weight + self.bias\r\n\r\n    def backward(self, grad_z):\r\n        \"\"\"\r\n        Tính toán gradient cho weight và bias\r\n        Args:\r\n        - grad_z: Gradient của hàm mất mát theo output z, có shape (batch_size, out_features)\r\n        \r\n        Returns:\r\n        - grad_w: Gradient của hàm mất mát theo weight, có shape (in_features, out_features)\r\n        - grad_b: Gradient của hàm mất mát theo bias, có shape (out_features)\r\n        - grad_x: Gradient của hàm mất mát theo input x, có shape (batch_size, in_features)\r\n        \"\"\"\r\n        self.grad_w = self.x.T @ grad_z\r\n        self.grad_b = np.sum(grad_z, axis=0)\r\n        self.grad_x = grad_z @ self.weight.T\r\n        return self.grad_w, self.grad_b, self.grad_x"
+  },
+  {
+    "id": "q004",
+    "type": "essay_code",
+    "question": "Cho `nn` là framework định nghĩa các lớp cần thiết để xây dựng mô hình học sâu. Framework hỗ trợ các thành phần sau:\n\n| Thành phần | Mô tả | Methods hỗ trợ |\n|:---|:---|:---|\n| `Model(*layers)` | Khung mô hình, nhận danh sách các layer làm tham số | `forward(x)` · `backward(grad)` · `parameters()` |\n| `nn.layers.Linear(in, out)` | Lớp tuyến tính (fully connected) | `forward(x)` · `backward(grad)` |\n| `nn.activations.ReLU()` | Hàm kích hoạt ReLU | `forward(x)` · `backward(grad)` |\n| `nn.activations.Softmax()` | Hàm kích hoạt Softmax | `forward(x)` · `backward(grad)` |\n| `nn.optim.SGD(params, lr)` | Optimizer SGD cập nhật trọng số | `step()` · `zero_grad()` |\n\n**Bảng tóm tắt phương thức:**\n\n| Phương thức | Input | Output | Ý nghĩa |\n|:---|:---|:---|:---|\n| `model.forward(x)` | Dữ liệu đầu vào `x` | Prediction `ŷ` | Lan truyền xuôi qua tất cả layers |\n| `model.backward(grad)` | Gradient của loss | — | Lan truyền ngược, tính gradient cho mỗi layer |\n| `model.parameters()` | — | Danh sách `[param, ...]` | Trả về tất cả trọng số (mỗi param có `.grad`) |\n| `optimizer.zero_grad()` | — | — | Xóa gradient cũ trước mỗi lần backward |\n| `optimizer.step()` | — | — | Cập nhật trọng số: `param -= lr * param.grad` |\n\nCho tập dữ liệu `X` (1000 mẫu, 728 features) và nhãn `Y` (10 classes, dạng one-hot), hãy hoàn thành chương trình:\n1. **Chuẩn bị dữ liệu**: Scale dữ liệu `X`, chia thành tập train/test theo tỉ lệ 80/20\n2. **Huấn luyện mô hình**: Viết vòng lặp training với `epochs = 10`, `learning_rate = 0.01`, sử dụng `SGD` optimizer",
+    "code_language": "python",
+    "explanation": "**Hướng dẫn giải:**\n\n1. **Scale dữ liệu**: Chuẩn hóa X bằng Standardization `(X - mean) / std`.\n2. **Chia dữ liệu**: Tách 80% train, 20% test bằng slicing.\n3. **Khởi tạo optimizer**: `SGD(model.parameters(), lr=0.01)`\n4. **Training loop**:\n   - `optimizer.zero_grad()` — xóa gradient cũ\n   - `output = model.forward(X_train)` — lan truyền xuôi\n   - Tính loss (Cross-Entropy) và gradient\n   - `model.backward(loss_grad)` — lan truyền ngược\n   - `optimizer.step()` — cập nhật trọng số",
+    "starter_code": "from nn import Model\nfrom nn.layers import Linear\nfrom nn.activations import ReLU, Softmax\nfrom nn.optim import SGD\nimport numpy as np\n\nsamples = 1000\nfeatures = 728\nnum_class = 10\n\nX = np.random.rand(samples, features)\nlabels = np.random.randint(0, num_class, size=samples)\nY = np.eye(num_class)[labels]\n\n# ===== DATA PROCESSING =====\n# TODO: Scale dữ liệu X về khoảng phù hợp\n\n\n# TODO: Chia dữ liệu thành tập train/test (80/20)\n\n\n# ===== MODEL =====\nmodel = Model(\n    Linear(728, 512),\n    ReLU(),\n    Linear(512, 256),\n    ReLU(),\n    Linear(256, 10),\n    Softmax()\n)\n\noptimizer = SGD(model.parameters(), lr=0.01)\n\n# ===== TRAINING =====\nepochs = 10\n\nfor epoch in range(epochs):\n    # TODO: Xóa gradient cũ\n\n\n    # TODO: Forward pass\n\n\n    # TODO: Tính loss (Cross-Entropy)\n\n\n    # TODO: Backward pass\n\n\n    # TODO: Cập nhật trọng số bằng optimizer\n\n\n    # TODO: In thông tin loss mỗi epoch\n    pass",
+    "answer": "from nn import Model\nfrom nn.layers import Linear\nfrom nn.activations import ReLU, Softmax\nfrom nn.optim import SGD\nimport numpy as np\n\nsamples = 1000\nfeatures = 728\nnum_class = 10\n\nX = np.random.rand(samples, features)\nlabels = np.random.randint(0, num_class, size=samples)\nY = np.eye(num_class)[labels]\n\n# ===== DATA PROCESSING =====\n# Scale dữ liệu X bằng Standardization\nX_mean = np.mean(X, axis=0)\nX_std = np.std(X, axis=0) + 1e-8  # Tránh chia cho 0\nX = (X - X_mean) / X_std\n\n# Chia dữ liệu thành tập train/test (80/20)\nsplit = int(0.8 * samples)\nX_train, X_test = X[:split], X[split:]\nY_train, Y_test = Y[:split], Y[split:]\n\n# ===== MODEL =====\nmodel = Model(\n    Linear(728, 512),\n    ReLU(),\n    Linear(512, 256),\n    ReLU(),\n    Linear(256, 10),\n    Softmax()\n)\n\noptimizer = SGD(model.parameters(), lr=0.01)\n\n# ===== TRAINING =====\nepochs = 10\n\nfor epoch in range(epochs):\n    # Xóa gradient cũ\n    optimizer.zero_grad()\n\n    # Forward pass\n    output = model.forward(X_train)\n\n    # Tính loss (Cross-Entropy)\n    loss = -np.sum(Y_train * np.log(output + 1e-9)) / len(Y_train)\n\n    # Backward pass\n    loss_grad = (output - Y_train) / len(Y_train)\n    model.backward(loss_grad)\n\n    # Cập nhật trọng số bằng optimizer\n    optimizer.step()\n\n    # In thông tin loss mỗi epoch\n    print(f\"Epoch {epoch + 1}/{epochs} - Loss: {loss:.4f}\")"
   }
 ]

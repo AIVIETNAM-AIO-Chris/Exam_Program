@@ -394,12 +394,51 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Math block, LaTeX, & Markdown renderer */
 .question-text {
-  font-size: 12pt;
-  line-height: 1.5;
+  font-size: 14pt;
+  line-height: 1.6;
 }
 
 .question-text p {
   margin-bottom: 0.75rem;
+}
+
+/* Bảng trong câu hỏi — đường kẻ rõ ràng */
+.question-text table,
+.card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 13pt;
+}
+
+.question-text table th,
+.question-text table td,
+.card table th,
+.card table td {
+  border: 1px solid var(--border-color);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.question-text table th,
+.card table th {
+  background-color: var(--bg-sidebar);
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.question-text table tr:nth-child(even),
+.card table tr:nth-child(even) {
+  background-color: rgba(243, 233, 210, 0.3);
+}
+
+.question-text table code,
+.card table code {
+  background-color: rgba(181, 137, 0, 0.1);
+  padding: 0.1rem 0.35rem;
+  border-radius: 3px;
+  font-size: 12pt;
 }
 
 .katex-display {

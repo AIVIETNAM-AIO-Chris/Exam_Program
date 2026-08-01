@@ -1,0 +1,9 @@
+{
+  "id": "003",
+  "type": "essay_code",
+  "question": "Cho lớp Linear như dưới đây, hãy hoàn thành đoạn logic còn thiếu",
+  "code_language": "python",
+  "starter_code_file": "code/q003_starter.py",
+  "answer_file": "code/q003_answer.py",
+  "explaination": "Dùng torch.random.randn() khởi tạo trọng số và torch.zeros() khởi tạo bias"
+}
