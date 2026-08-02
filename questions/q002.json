@@ -1,0 +1,9 @@
+{
+  "id": "q002",
+  "type": "essay_code",
+  "question": "Cho lớp `DataLoader` được cài đặt bằng Python dưới đây với mục đích xáo trộn dữ liệu (shuffle) và chia tập dữ liệu $(X, y)$ thành các mini-batch.\n\nTuy nhiên, chương trình đang chứa một số **lỗi logic** khiến cho dữ liệu và nhãn bị lệch hàng với nhau, không reset được chỉ số khi sang epoch mới, hoặc kiểm tra sai điều kiện dừng mini-batch.\n\n**Yêu cầu**: Hãy tìm và sửa lại các đoạn code bị lỗi trong trình soạn thảo bên dưới để lớp `DataLoader` hoạt động hoàn toàn chính xác.\n\n---\n**Chú thích hàm hỗ trợ:**\n* `np.random.permutation(n)`: Trả về một mảng chứa các số nguyên từ $0$ đến $n-1$ được xáo trộn thứ tự ngẫu nhiên (Ví dụ: `np.random.permutation(5)` $\\rightarrow$ `array([3, 0, 4, 1, 2])`). Bạn có thể dùng mảng chỉ số (indices) này để xáo trộn đồng thời cả ma trận dữ liệu $X$ và vector nhãn $y$ theo cùng một thứ tự.",
+  "code_language": "python",
+  "starter_code_file": "code/q002_starter.py",
+  "answer_file": "code/q002_answer.py",
+  "explanation": "**Hướng dẫn giải (Sửa 3 lỗi logic):**\n\n1. **Lỗi xáo trộn lệch nhãn (Data Alignment Bug)**: Gọi `np.random.permutation` riêng cho `X` và `y` làm cho các mẫu dữ liệu $X_i$ bị ghép sai với nhãn $y_j$. **Sửa lại**: Tạo 1 mảng chỉ số `indices = np.random.permutation(len(self.X))` duy nhất và dùng nó để index đồng thời cả `X` và `y` (`self.X[indices]`, `self.y[indices]`).\n2. **Lỗi không reset chỉ số epoch (State Reset Bug)**: Khi bắt đầu epoch mới trong `__iter__()`, không đặt lại `self.current_idx = 0`, khiến DataLoader chỉ chạy được 1 epoch đầu tiên. **Sửa lại**: Đặt `self.current_idx = 0` ở đầu phương thức `__iter__()`.\n3. **Lỗi điều kiện dừng (Boundary Condition Bug)**: Trong `__next__()`, điều kiện dừng `self.current_idx < len(self.X)` khiến phương thức dừng ngay lập tức từ chỉ số 0. **Sửa lại**: Đổi điều kiện thành `self.current_idx >= len(self.X)`."
+}

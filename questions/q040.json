@@ -1,0 +1,26 @@
+{
+  "id": "q040",
+  "type": "single_choice",
+  "question": "**Bài toán thực tế (Case Study):**\nMột kỹ sư AI muốn viết một hàm Python để tính toán hàm kích hoạt **LeakyReLU** cho mạng nơ-ron với công thức:\n\n$$f(x) = \\begin{cases} x & \\text{nếu } x > 0 \\\\ \\alpha x & \\text{nếu } x \\le 0 \\end{cases}$$\n\n**Yêu cầu kỹ thuật:**\n1. Đầu vào `X` là một ma trận `numpy.ndarray` có kích thước bất kỳ (ví dụ: `(batch_size, features)`).\n2. Phải tính toán dạng **vectorized** (không sử dụng vòng lặp `for` duyệt từng phần tử).\n3. Không làm thay đổi trực tiếp dữ liệu của ma trận `X` ban đầu (*không gây side-effect / in-place mutation*).\n\nTrong 4 đoạn mã nguồn dưới đây, đoạn chương trình nào đáp ứng **chính xác và đầy đủ** các yêu cầu trên?",
+  "options": [
+    {
+      "text": "```python\nimport numpy as np\n\ndef leaky_relu(X, alpha=0.01):\n    return np.where(X > 0, X, X / alpha)\n```",
+      "is_correct": false
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef leaky_relu(X, alpha=0.01):\n    return np.where(X > 0, X, alpha * X)\n```",
+      "is_correct": true
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef leaky_relu(X, alpha=0.01):\n    X[X <= 0] = alpha * X[X <= 0]\n    return X\n```",
+      "is_correct": false
+    },
+    {
+      "text": "```python\nimport numpy as np\n\ndef leaky_relu(X, alpha=0.01):\n    out = np.zeros_like(X)\n    for i in range(X.shape[0]):\n        for j in range(X.shape[1]):\n            out[i, j] = X[i, j] if X[i, j] > 0 else alpha * X[i, j]\n    return out\n```",
+      "is_correct": false
+    }
+  ],
+  "answer": 1,
+  "images": [],
+  "explanation": "**Giải thích chi tiết:**\n\n* **Phương án B là ĐÚNG**: Sử dụng `np.where(X > 0, X, alpha * X)` xử lý vectorized trên ma trận mọi chiều, trả về ma trận mới không làm biến đổi ma trận `X` truyền vào.\n* **Phương án A sai**: Phép tính bị nhầm thành chia `X / alpha` thay vì `alpha * X`.\n* **Phương án C sai**: Sử dụng gán trực tiếp `X[X <= 0] = ...` làm biến đổi (mutate) dữ liệu của ma trận `X` gốc ban đầu, vi phạm yêu cầu không gây side-effect.\n* **Phương án D sai**: Sử dụng 2 vòng lặp `for` duyệt qua từng phần tử không theo dạng vectorized (hiệu năng kém) và bị lỗi nếu `X` có số chiều khác 2 (như ma trận 3D, 4D)."
+}

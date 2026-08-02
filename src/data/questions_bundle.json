@@ -3,8 +3,17 @@
     "id": "q001",
     "type": "essay_code",
     "question": "Cho công thức Binary Cross Entropy như sau: $$L(y, \\hat{y}) = -\\sum y_i \\log(\\hat{y}_i) + (1-y_i)\\log(1-\\hat{y}_i)$$, hãy viết code tính BCE",
-    "starter_code": "import numpy as np\n\ndef compute_bce(y_true, y_pred):\n    \"\"\"\n    Tính Binary Cross Entropy\n    Args:\n    - y_true: True labels, có shape (batch_size, 1)\n    - y_pred: Predicted probabilities, có shape (batch_size, 1)\n    Returns:\n    - bce: Binary Cross Entropy Loss, có shape (1,)\n    \"\"\"\n    # YOUR CODE HERE\n    pass",
-    "answer": "import numpy as np\n\ndef compute_bce(y_true, y_pred):\n    \"\"\"\n    Tính Binary Cross Entropy\n    Args:\n    - y_true: True labels, có shape (batch_size, 1)\n    - y_pred: Predicted probabilities, có shape (batch_size, 1)\n    Returns:\n    - bce: Binary Cross Entropy Loss, có shape (1,)\n    \"\"\"\n    loss = np.mean(-(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred)))\n    return loss"
+    "starter_code": "import numpy as np\r\n\r\ndef compute_bce(y_true, y_pred):\r\n    \"\"\"\r\n    Tính Binary Cross Entropy\r\n    Args:\r\n    - y_true: True labels, có shape (batch_size, 1)\r\n    - y_pred: Predicted probabilities, có shape (batch_size, 1)\r\n    Returns:\r\n    - bce: Binary Cross Entropy Loss, có shape (1,)\r\n    \"\"\"\r\n    # YOUR CODE HERE\r\n    pass",
+    "answer": "import numpy as np\r\n\r\ndef compute_bce(y_true, y_pred):\r\n    \"\"\"\r\n    Tính Binary Cross Entropy\r\n    Args:\r\n    - y_true: True labels, có shape (batch_size, 1)\r\n    - y_pred: Predicted probabilities, có shape (batch_size, 1)\r\n    Returns:\r\n    - bce: Binary Cross Entropy Loss, có shape (1,)\r\n    \"\"\"\r\n    loss = np.mean(-(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred)))\r\n    return loss"
+  },
+  {
+    "id": "q002",
+    "type": "essay_code",
+    "question": "Cho lớp `DataLoader` được cài đặt bằng Python dưới đây với mục đích xáo trộn dữ liệu (shuffle) và chia tập dữ liệu $(X, y)$ thành các mini-batch.\n\nTuy nhiên, chương trình đang chứa một số **lỗi logic** khiến cho dữ liệu và nhãn bị lệch hàng với nhau, không reset được chỉ số khi sang epoch mới, hoặc kiểm tra sai điều kiện dừng mini-batch.\n\n**Yêu cầu**: Hãy tìm và sửa lại các đoạn code bị lỗi trong trình soạn thảo bên dưới để lớp `DataLoader` hoạt động hoàn toàn chính xác.\n\n---\n**Chú thích hàm hỗ trợ:**\n* `np.random.permutation(n)`: Trả về một mảng chứa các số nguyên từ $0$ đến $n-1$ được xáo trộn thứ tự ngẫu nhiên (Ví dụ: `np.random.permutation(5)` $\\rightarrow$ `array([3, 0, 4, 1, 2])`). Bạn có thể dùng mảng chỉ số (indices) này để xáo trộn đồng thời cả ma trận dữ liệu $X$ và vector nhãn $y$ theo cùng một thứ tự.",
+    "code_language": "python",
+    "explanation": "**Hướng dẫn giải (Sửa 3 lỗi logic):**\n\n1. **Lỗi xáo trộn lệch nhãn (Data Alignment Bug)**: Gọi `np.random.permutation` riêng cho `X` và `y` làm cho các mẫu dữ liệu $X_i$ bị ghép sai với nhãn $y_j$. **Sửa lại**: Tạo 1 mảng chỉ số `indices = np.random.permutation(len(self.X))` duy nhất và dùng nó để index đồng thời cả `X` và `y` (`self.X[indices]`, `self.y[indices]`).\n2. **Lỗi không reset chỉ số epoch (State Reset Bug)**: Khi bắt đầu epoch mới trong `__iter__()`, không đặt lại `self.current_idx = 0`, khiến DataLoader chỉ chạy được 1 epoch đầu tiên. **Sửa lại**: Đặt `self.current_idx = 0` ở đầu phương thức `__iter__()`.\n3. **Lỗi điều kiện dừng (Boundary Condition Bug)**: Trong `__next__()`, điều kiện dừng `self.current_idx < len(self.X)` khiến phương thức dừng ngay lập tức từ chỉ số 0. **Sửa lại**: Đổi điều kiện thành `self.current_idx >= len(self.X)`.",
+    "starter_code": "import numpy as np\n\nclass DataLoader:\n    def __init__(self, X, y, batch_size=32, shuffle=True):\n        self.X = X\n        self.y = y\n        self.batch_size = batch_size\n        self.shuffle = shuffle\n        self.current_idx = 0\n\n    def __iter__(self):\n        if self.shuffle:\n            self.X = self.X[np.random.permutation(len(self.X))]\n            self.y = self.y[np.random.permutation(len(self.y))]\n        return self\n\n    def __next__(self):\n        if self.current_idx < len(self.X):\n            raise StopIteration\n\n        end_idx = self.current_idx + self.batch_size\n        batch_X = self.X[self.current_idx : end_idx]\n        batch_y = self.y[self.current_idx : end_idx]\n        \n        self.current_idx = end_idx\n        return batch_X, batch_y",
+    "answer": "import numpy as np\n\nclass DataLoader:\n    def __init__(self, X, y, batch_size=32, shuffle=True):\n        self.X = X\n        self.y = y\n        self.batch_size = batch_size\n        self.shuffle = shuffle\n        self.current_idx = 0\n\n    def __iter__(self):\n        self.current_idx = 0\n        if self.shuffle:\n            indices = np.random.permutation(len(self.X))\n            self.X = self.X[indices]\n            self.y = self.y[indices]\n        return self\n\n    def __next__(self):\n        if self.current_idx >= len(self.X):\n            raise StopIteration\n\n        end_idx = self.current_idx + self.batch_size\n        batch_X = self.X[self.current_idx : end_idx]\n        batch_y = self.y[self.current_idx : end_idx]\n        \n        self.current_idx = end_idx\n        return batch_X, batch_y"
   },
   {
     "id": "003",
@@ -13,7 +22,7 @@
     "code_language": "python",
     "explaination": "Dùng torch.random.randn() khởi tạo trọng số và torch.zeros() khởi tạo bias",
     "starter_code": "import numpy as np\n\nclass Linear:\n    def __init__(self, in_features, out_features):\n        \"\"\"\n        Khởi tạo lớp Linear\n        Args:\n        - in_features: Số lượng features đầu vào\n        - out_features: Số lượng features đầu ra\n        \"\"\"\n        self.weight = \"YOUR CODE HERE\"\n        self.bias = \"YOUR CODE HERE\"\n\n        self.grad_weight = None\n        self.grad_bias = None\n        self.x = None\n\n    def forward(self, x):\n        \"\"\"\n        Thực hiện phép tính Linear\n        Args:\n        - x: Input features, có shape (batch_size, in_features)\n\n        Returns:\n        - z: Output features, có shape (batch_size, out_features)\n        \"\"\"\n        pass\n\n    def backward(self, grad_z):\n        \"\"\"\n        Tính toán gradient cho weight và bias\n        Args:\n        - grad_z: Gradient của hàm mất mát theo output z, có shape (batch_size, out_features)\n        \n        Returns:\n        - grad_w: Gradient của hàm mất mát theo weight, có shape (in_features, out_features)\n        - grad_b: Gradient của hàm mất mát theo bias, có shape (out_features)\n        - grad_x: Gradient của hàm mất mát theo input x, có shape (batch_size, in_features)\n        \"\"\"\n        pass",
-    "answer": "import numpy as np\n\nclass Linear:\n    def __init__(self, in_features, out_features):\n        \"\"\"\n        Khởi tạo lớp Linear\n        Args:\n        - in_features: Số lượng features đầu vào\n        - out_features: Số lượng features đầu ra\n        \"\"\"\n        self.weight = np.random.randn(in_features, out_features) / np.sqrt(in_features)\n        self.bias = np.zeros(out_features)\n\n    def forward(self, x):\n        \"\"\"\n        Thực hiện phép tính Linear\n        Args:\n        - x: Input features, có shape (batch_size, in_features)\n\n        Returns:\n        - z: Output features, có shape (batch_size, out_features)\n        \"\"\"\n        return x @ self.weight + self.bias\n\n    def backward(self, grad_z):\n        \"\"\"\n        Tính toán gradient cho weight và bias\n        Args:\n        - grad_z: Gradient của hàm mất mát theo output z, có shape (batch_size, out_features)\n        \n        Returns:\n        - grad_w: Gradient của hàm mất mát theo weight, có shape (in_features, out_features)\n        - grad_b: Gradient của hàm mất mát theo bias, có shape (out_features)\n        - grad_x: Gradient của hàm mất mát theo input x, có shape (batch_size, in_features)\n        \"\"\"\n        self.grad_w = self.x.T @ grad_z\n        self.grad_b = np.sum(grad_z, axis=0)\n        self.grad_x = grad_z @ self.weight.T\n        return self.grad_w, self.grad_b, self.grad_x"
+    "answer": "import numpy as np\r\n\r\nclass Linear:\r\n    def __init__(self, in_features, out_features):\r\n        \"\"\"\r\n        Khởi tạo lớp Linear\r\n        Args:\r\n        - in_features: Số lượng features đầu vào\r\n        - out_features: Số lượng features đầu ra\r\n        \"\"\"\r\n        self.weight = np.random.randn(in_features, out_features) / np.sqrt(in_features)\r\n        self.bias = np.zeros(out_features)\r\n\r\n    def forward(self, x):\r\n        \"\"\"\r\n        Thực hiện phép tính Linear\r\n        Args:\r\n        - x: Input features, có shape (batch_size, in_features)\r\n\r\n        Returns:\r\n        - z: Output features, có shape (batch_size, out_features)\r\n        \"\"\"\r\n        return x @ self.weight + self.bias\r\n\r\n    def backward(self, grad_z):\r\n        \"\"\"\r\n        Tính toán gradient cho weight và bias\r\n        Args:\r\n        - grad_z: Gradient của hàm mất mát theo output z, có shape (batch_size, out_features)\r\n        \r\n        Returns:\r\n        - grad_w: Gradient của hàm mất mát theo weight, có shape (in_features, out_features)\r\n        - grad_b: Gradient của hàm mất mát theo bias, có shape (out_features)\r\n        - grad_x: Gradient của hàm mất mát theo input x, có shape (batch_size, in_features)\r\n        \"\"\"\r\n        self.grad_w = self.x.T @ grad_z\r\n        self.grad_b = np.sum(grad_z, axis=0)\r\n        self.grad_x = grad_z @ self.weight.T\r\n        return self.grad_w, self.grad_b, self.grad_x"
   },
   {
     "id": "q004",
@@ -860,5 +869,31 @@
     "answer": "",
     "images": [],
     "explanation": ""
+  },
+  {
+    "id": "q040",
+    "type": "single_choice",
+    "question": "**Bài toán thực tế (Case Study):**\nMột kỹ sư AI muốn viết một hàm Python để tính toán hàm kích hoạt **LeakyReLU** cho mạng nơ-ron với công thức:\n\n$$f(x) = \\begin{cases} x & \\text{nếu } x > 0 \\\\ \\alpha x & \\text{nếu } x \\le 0 \\end{cases}$$\n\n**Yêu cầu kỹ thuật:**\n1. Đầu vào `X` là một ma trận `numpy.ndarray` có kích thước bất kỳ (ví dụ: `(batch_size, features)`).\n2. Phải tính toán dạng **vectorized** (không sử dụng vòng lặp `for` duyệt từng phần tử).\n3. Không làm thay đổi trực tiếp dữ liệu của ma trận `X` ban đầu (*không gây side-effect / in-place mutation*).\n\nTrong 4 đoạn mã nguồn dưới đây, đoạn chương trình nào đáp ứng **chính xác và đầy đủ** các yêu cầu trên?",
+    "options": [
+      {
+        "text": "```python\nimport numpy as np\n\ndef leaky_relu(X, alpha=0.01):\n    return np.where(X > 0, X, X / alpha)\n```",
+        "is_correct": false
+      },
+      {
+        "text": "```python\nimport numpy as np\n\ndef leaky_relu(X, alpha=0.01):\n    return np.where(X > 0, X, alpha * X)\n```",
+        "is_correct": true
+      },
+      {
+        "text": "```python\nimport numpy as np\n\ndef leaky_relu(X, alpha=0.01):\n    X[X <= 0] = alpha * X[X <= 0]\n    return X\n```",
+        "is_correct": false
+      },
+      {
+        "text": "```python\nimport numpy as np\n\ndef leaky_relu(X, alpha=0.01):\n    out = np.zeros_like(X)\n    for i in range(X.shape[0]):\n        for j in range(X.shape[1]):\n            out[i, j] = X[i, j] if X[i, j] > 0 else alpha * X[i, j]\n    return out\n```",
+        "is_correct": false
+      }
+    ],
+    "answer": 1,
+    "images": [],
+    "explanation": "**Giải thích chi tiết:**\n\n* **Phương án B là ĐÚNG**: Sử dụng `np.where(X > 0, X, alpha * X)` xử lý vectorized trên ma trận mọi chiều, trả về ma trận mới không làm biến đổi ma trận `X` truyền vào.\n* **Phương án A sai**: Phép tính bị nhầm thành chia `X / alpha` thay vì `alpha * X`.\n* **Phương án C sai**: Sử dụng gán trực tiếp `X[X <= 0] = ...` làm biến đổi (mutate) dữ liệu của ma trận `X` gốc ban đầu, vi phạm yêu cầu không gây side-effect.\n* **Phương án D sai**: Sử dụng 2 vòng lặp `for` duyệt qua từng phần tử không theo dạng vectorized (hiệu năng kém) và bị lỗi nếu `X` có số chiều khác 2 (như ma trận 3D, 4D)."
   }
 ]
