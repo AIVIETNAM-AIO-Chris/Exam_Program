@@ -24,6 +24,62 @@ function shuffleArray(array) {
   return arr;
 }
 
+function cleanOptionText(text) {
+  if (!text) return '';
+  return text.replace(/^[A-Z][\.\:\)]\s*/, '');
+}
+
+function prepareQuestionsData(rawQuestions, config) {
+  let questions = rawQuestions.map(q => {
+    if ((q.type === 'single_choice' || q.type === 'multiple_choice') && q.options) {
+      return {
+        ...q,
+        options: q.options.map(opt => ({
+          ...opt,
+          text: cleanOptionText(opt.text)
+        }))
+      };
+    }
+    return q;
+  });
+
+  if (config.shuffle_questions) {
+    questions = shuffleArray(questions);
+  }
+
+  if (config.shuffle_options) {
+    questions = questions.map(q => {
+      if ((q.type === 'single_choice' || q.type === 'multiple_choice') && q.options) {
+        const mappedOptions = q.options.map((opt, originalIdx) => ({
+          ...opt,
+          originalIdx
+        }));
+        const shuffledOptions = shuffleArray(mappedOptions);
+        
+        let newAnswer;
+        if (q.type === 'single_choice') {
+          newAnswer = shuffledOptions.findIndex(opt => opt.originalIdx === q.answer);
+        } else if (q.type === 'multiple_choice') {
+          const originalAnswers = Array.isArray(q.answer) ? q.answer : [];
+          newAnswer = shuffledOptions
+            .map((opt, shuffledIdx) => originalAnswers.includes(opt.originalIdx) ? shuffledIdx : -1)
+            .filter(idx => idx !== -1)
+            .sort((a, b) => a - b);
+        }
+
+        return {
+          ...q,
+          options: shuffledOptions,
+          answer: newAnswer
+        };
+      }
+      return q;
+    });
+  }
+
+  return questions;
+}
+
 export default function App() {
   const [questions, setQuestions] = useState([]);
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -36,42 +92,7 @@ export default function App() {
   const timerRef = useRef(null);
 
   useEffect(() => {
-    let preparedQuestions = [...questionsData];
-
-    if (config.shuffle_questions) {
-      preparedQuestions = shuffleArray(preparedQuestions);
-    }
-
-    if (config.shuffle_options) {
-      preparedQuestions = preparedQuestions.map(q => {
-        if ((q.type === 'single_choice' || q.type === 'multiple_choice') && q.options) {
-          const mappedOptions = q.options.map((opt, originalIdx) => ({
-            ...opt,
-            originalIdx
-          }));
-          const shuffledOptions = shuffleArray(mappedOptions);
-          
-          let newAnswer;
-          if (q.type === 'single_choice') {
-            newAnswer = shuffledOptions.findIndex(opt => opt.originalIdx === q.answer);
-          } else if (q.type === 'multiple_choice') {
-            const originalAnswers = Array.isArray(q.answer) ? q.answer : [];
-            newAnswer = shuffledOptions
-              .map((opt, shuffledIdx) => originalAnswers.includes(opt.originalIdx) ? shuffledIdx : -1)
-              .filter(idx => idx !== -1)
-              .sort((a, b) => a - b);
-          }
-
-          return {
-            ...q,
-            options: shuffledOptions,
-            answer: newAnswer
-          };
-        }
-        return q;
-      });
-    }
-
+    const preparedQuestions = prepareQuestionsData(questionsData, config);
     setQuestions(preparedQuestions);
     document.documentElement.setAttribute('data-theme', 'light'); // Mặc định dùng light theme (vàng ấm)
   }, []);
@@ -172,30 +193,7 @@ export default function App() {
       setExamStarted(false);
       sessionStorage.clear();
       
-      let preparedQuestions = [...questionsData];
-      if (config.shuffle_questions) {
-        preparedQuestions = shuffleArray(preparedQuestions);
-      }
-      if (config.shuffle_options) {
-        preparedQuestions = preparedQuestions.map(q => {
-          if ((q.type === 'single_choice' || q.type === 'multiple_choice') && q.options) {
-            const mappedOptions = q.options.map((opt, originalIdx) => ({ ...opt, originalIdx }));
-            const shuffledOptions = shuffleArray(mappedOptions);
-            let newAnswer;
-            if (q.type === 'single_choice') {
-              newAnswer = shuffledOptions.findIndex(opt => opt.originalIdx === q.answer);
-            } else if (q.type === 'multiple_choice') {
-              const originalAnswers = Array.isArray(q.answer) ? q.answer : [];
-              newAnswer = shuffledOptions
-                .map((opt, shuffledIdx) => originalAnswers.includes(opt.originalIdx) ? shuffledIdx : -1)
-                .filter(idx => idx !== -1)
-                .sort((a, b) => a - b);
-            }
-            return { ...q, options: shuffledOptions, answer: newAnswer };
-          }
-          return q;
-        });
-      }
+      const preparedQuestions = prepareQuestionsData(questionsData, config);
       setQuestions(preparedQuestions);
     }
   };

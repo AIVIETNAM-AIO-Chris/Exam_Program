@@ -23,7 +23,9 @@ export default function AnswerInput({ question, value, onChange }) {
       <div className="options-list fade-in">
         {question.options && question.options.map((option, idx) => {
           const isSelected = selectedIdx === idx;
-          const optionHtml = option.text ? renderMarkdownWithMath(option.text) : '';
+          const label = String.fromCharCode(65 + idx);
+          const cleanText = option.text ? option.text.replace(/^[A-Z][\.\:\)]\s*/, '') : '';
+          const optionHtml = cleanText ? renderMarkdownWithMath(cleanText) : '';
           
           return (
             <div 
@@ -32,12 +34,15 @@ export default function AnswerInput({ question, value, onChange }) {
               onClick={() => onChange(idx)}
             >
               <div className="option-indicator" />
-              <div className="option-content">
-                {option.image ? (
-                  <img src={option.image} alt={`Đáp án ${String.fromCharCode(65 + idx)}`} />
-                ) : (
-                  <div dangerouslySetInnerHTML={{ __html: optionHtml }} />
-                )}
+              <div className="option-content" style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', width: '100%' }}>
+                <span className="option-label" style={{ fontWeight: 'bold', minWidth: '1.4rem', flexShrink: 0 }}>{label}.</span>
+                <div style={{ flex: 1 }}>
+                  {option.image ? (
+                    <img src={option.image} alt={`Đáp án ${label}`} />
+                  ) : (
+                    <div dangerouslySetInnerHTML={{ __html: optionHtml }} />
+                  )}
+                </div>
               </div>
             </div>
           );
@@ -64,7 +69,9 @@ export default function AnswerInput({ question, value, onChange }) {
       <div className="options-list multiple-choice fade-in">
         {question.options && question.options.map((option, idx) => {
           const isSelected = selectedIndices.includes(idx);
-          const optionHtml = option.text ? renderMarkdownWithMath(option.text) : '';
+          const label = String.fromCharCode(65 + idx);
+          const cleanText = option.text ? option.text.replace(/^[A-Z][\.\:\)]\s*/, '') : '';
+          const optionHtml = cleanText ? renderMarkdownWithMath(cleanText) : '';
 
           return (
             <div 
@@ -73,12 +80,15 @@ export default function AnswerInput({ question, value, onChange }) {
               onClick={() => handleToggle(idx)}
             >
               <div className="option-indicator" />
-              <div className="option-content">
-                {option.image ? (
-                  <img src={option.image} alt={`Đáp án ${String.fromCharCode(65 + idx)}`} />
-                ) : (
-                  <div dangerouslySetInnerHTML={{ __html: optionHtml }} />
-                )}
+              <div className="option-content" style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', width: '100%' }}>
+                <span className="option-label" style={{ fontWeight: 'bold', minWidth: '1.4rem', flexShrink: 0 }}>{label}.</span>
+                <div style={{ flex: 1 }}>
+                  {option.image ? (
+                    <img src={option.image} alt={`Đáp án ${label}`} />
+                  ) : (
+                    <div dangerouslySetInnerHTML={{ __html: optionHtml }} />
+                  )}
+                </div>
               </div>
             </div>
           );

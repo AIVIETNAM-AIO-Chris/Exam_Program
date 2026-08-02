@@ -356,11 +356,18 @@ export default function ResultScreen({ questions, answers, onRestart, config, st
                     if (isCorrectOption) optClass += ' correct-choice'; // Viền xanh lá
                     else if (isSelectedByCandidate && !isCorrectOption) optClass += ' wrong-choice'; // Viền đỏ
 
+                    const label = String.fromCharCode(65 + optIdx);
+                    const cleanText = opt.text ? opt.text.replace(/^[A-Z][\.\:\)]\s*/, '') : '';
+                    const optionHtml = cleanText ? renderMarkdownWithMath(cleanText) : '';
+
                     return (
                       <div key={optIdx} className={optClass}>
                         <div className="option-indicator" />
-                        <div className="option-content">
-                          {opt.image ? <img src={opt.image} alt="Đáp án" /> : <div dangerouslySetInnerHTML={{ __html: renderMarkdownWithMath(opt.text) }} />}
+                        <div className="option-content" style={{ display: 'flex', alignItems: 'baseline', gap: '0.4rem', width: '100%' }}>
+                          <span className="option-label" style={{ fontWeight: 'bold', minWidth: '1.4rem', flexShrink: 0 }}>{label}.</span>
+                          <div style={{ flex: 1 }}>
+                            {opt.image ? <img src={opt.image} alt="Đáp án" /> : <div dangerouslySetInnerHTML={{ __html: optionHtml }} />}
+                          </div>
                         </div>
                         {isCorrectOption && (
                           <span className="result-badge correct">Đáp án đúng</span>
