@@ -1,0 +1,14 @@
+{
+  "id": "q024",
+  "type": "single_choice",
+  "question": "Trong quá trình thiết kế mạng nơ-ron, nếu mô hình của bạn sử dụng tập dữ liệu gồm 10 danh mục quần áo khác nhau, thiết kế của lớp đầu ra (Output layer) bắt buộc phải như thế nào?",
+  "options": [
+    { "text": "A. Tuân theo một phân bố xác suất.", "is_correct": true },
+    { "text": "B. Có 11 class do cần phải tính tới trường hợp ảnh không nhận diện được ảnh.", "is_correct": false },
+    { "text": "C. Số chiều output bằng số chiều của input.", "is_correct": false },
+    { "text": "D. Số lượng node có thể tùy ý lựa chọn miễn là dùng hàm Softmax.", "is_correct": false }
+  ],
+  "answer": 0,
+  "images": [],
+  "explanation": ""
+}

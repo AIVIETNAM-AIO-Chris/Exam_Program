@@ -3,8 +3,8 @@
     "id": "q001",
     "type": "essay_code",
     "question": "Cho công thức Binary Cross Entropy như sau: $$L(y, \\hat{y}) = -\\sum y_i \\log(\\hat{y}_i) + (1-y_i)\\log(1-\\hat{y}_i)$$, hãy viết code tính BCE",
-    "starter_code": "import numpy as np\r\n\r\ndef compute_bce(y_true, y_pred):\r\n    \"\"\"\r\n    Tính Binary Cross Entropy\r\n    Args:\r\n    - y_true: True labels, có shape (batch_size, 1)\r\n    - y_pred: Predicted probabilities, có shape (batch_size, 1)\r\n    Returns:\r\n    - bce: Binary Cross Entropy Loss, có shape (1,)\r\n    \"\"\"\r\n    # YOUR CODE HERE\r\n    pass",
-    "answer": "import numpy as np\r\n\r\ndef compute_bce(y_true, y_pred):\r\n    \"\"\"\r\n    Tính Binary Cross Entropy\r\n    Args:\r\n    - y_true: True labels, có shape (batch_size, 1)\r\n    - y_pred: Predicted probabilities, có shape (batch_size, 1)\r\n    Returns:\r\n    - bce: Binary Cross Entropy Loss, có shape (1,)\r\n    \"\"\"\r\n    loss = np.mean(-(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred)))\r\n    return loss"
+    "starter_code": "import numpy as np\n\ndef compute_bce(y_true, y_pred):\n    \"\"\"\n    Tính Binary Cross Entropy\n    Args:\n    - y_true: True labels, có shape (batch_size, 1)\n    - y_pred: Predicted probabilities, có shape (batch_size, 1)\n    Returns:\n    - bce: Binary Cross Entropy Loss, có shape (1,)\n    \"\"\"\n    # YOUR CODE HERE\n    pass",
+    "answer": "import numpy as np\n\ndef compute_bce(y_true, y_pred):\n    \"\"\"\n    Tính Binary Cross Entropy\n    Args:\n    - y_true: True labels, có shape (batch_size, 1)\n    - y_pred: Predicted probabilities, có shape (batch_size, 1)\n    Returns:\n    - bce: Binary Cross Entropy Loss, có shape (1,)\n    \"\"\"\n    loss = np.mean(-(y_true * np.log(y_pred) + (1 - y_true) * np.log(1 - y_pred)))\n    return loss"
   },
   {
     "id": "003",
@@ -13,7 +13,7 @@
     "code_language": "python",
     "explaination": "Dùng torch.random.randn() khởi tạo trọng số và torch.zeros() khởi tạo bias",
     "starter_code": "import numpy as np\n\nclass Linear:\n    def __init__(self, in_features, out_features):\n        \"\"\"\n        Khởi tạo lớp Linear\n        Args:\n        - in_features: Số lượng features đầu vào\n        - out_features: Số lượng features đầu ra\n        \"\"\"\n        self.weight = \"YOUR CODE HERE\"\n        self.bias = \"YOUR CODE HERE\"\n\n        self.grad_weight = None\n        self.grad_bias = None\n        self.x = None\n\n    def forward(self, x):\n        \"\"\"\n        Thực hiện phép tính Linear\n        Args:\n        - x: Input features, có shape (batch_size, in_features)\n\n        Returns:\n        - z: Output features, có shape (batch_size, out_features)\n        \"\"\"\n        pass\n\n    def backward(self, grad_z):\n        \"\"\"\n        Tính toán gradient cho weight và bias\n        Args:\n        - grad_z: Gradient của hàm mất mát theo output z, có shape (batch_size, out_features)\n        \n        Returns:\n        - grad_w: Gradient của hàm mất mát theo weight, có shape (in_features, out_features)\n        - grad_b: Gradient của hàm mất mát theo bias, có shape (out_features)\n        - grad_x: Gradient của hàm mất mát theo input x, có shape (batch_size, in_features)\n        \"\"\"\n        pass",
-    "answer": "import numpy as np\r\n\r\nclass Linear:\r\n    def __init__(self, in_features, out_features):\r\n        \"\"\"\r\n        Khởi tạo lớp Linear\r\n        Args:\r\n        - in_features: Số lượng features đầu vào\r\n        - out_features: Số lượng features đầu ra\r\n        \"\"\"\r\n        self.weight = np.random.randn(in_features, out_features) / np.sqrt(in_features)\r\n        self.bias = np.zeros(out_features)\r\n\r\n    def forward(self, x):\r\n        \"\"\"\r\n        Thực hiện phép tính Linear\r\n        Args:\r\n        - x: Input features, có shape (batch_size, in_features)\r\n\r\n        Returns:\r\n        - z: Output features, có shape (batch_size, out_features)\r\n        \"\"\"\r\n        return x @ self.weight + self.bias\r\n\r\n    def backward(self, grad_z):\r\n        \"\"\"\r\n        Tính toán gradient cho weight và bias\r\n        Args:\r\n        - grad_z: Gradient của hàm mất mát theo output z, có shape (batch_size, out_features)\r\n        \r\n        Returns:\r\n        - grad_w: Gradient của hàm mất mát theo weight, có shape (in_features, out_features)\r\n        - grad_b: Gradient của hàm mất mát theo bias, có shape (out_features)\r\n        - grad_x: Gradient của hàm mất mát theo input x, có shape (batch_size, in_features)\r\n        \"\"\"\r\n        self.grad_w = self.x.T @ grad_z\r\n        self.grad_b = np.sum(grad_z, axis=0)\r\n        self.grad_x = grad_z @ self.weight.T\r\n        return self.grad_w, self.grad_b, self.grad_x"
+    "answer": "import numpy as np\n\nclass Linear:\n    def __init__(self, in_features, out_features):\n        \"\"\"\n        Khởi tạo lớp Linear\n        Args:\n        - in_features: Số lượng features đầu vào\n        - out_features: Số lượng features đầu ra\n        \"\"\"\n        self.weight = np.random.randn(in_features, out_features) / np.sqrt(in_features)\n        self.bias = np.zeros(out_features)\n\n    def forward(self, x):\n        \"\"\"\n        Thực hiện phép tính Linear\n        Args:\n        - x: Input features, có shape (batch_size, in_features)\n\n        Returns:\n        - z: Output features, có shape (batch_size, out_features)\n        \"\"\"\n        return x @ self.weight + self.bias\n\n    def backward(self, grad_z):\n        \"\"\"\n        Tính toán gradient cho weight và bias\n        Args:\n        - grad_z: Gradient của hàm mất mát theo output z, có shape (batch_size, out_features)\n        \n        Returns:\n        - grad_w: Gradient của hàm mất mát theo weight, có shape (in_features, out_features)\n        - grad_b: Gradient của hàm mất mát theo bias, có shape (out_features)\n        - grad_x: Gradient của hàm mất mát theo input x, có shape (batch_size, in_features)\n        \"\"\"\n        self.grad_w = self.x.T @ grad_z\n        self.grad_b = np.sum(grad_z, axis=0)\n        self.grad_x = grad_z @ self.weight.T\n        return self.grad_w, self.grad_b, self.grad_x"
   },
   {
     "id": "q004",
@@ -23,5 +23,842 @@
     "explanation": "**Hướng dẫn giải:**\n\n1. **Scale dữ liệu**: Chuẩn hóa X bằng Standardization `(X - mean) / std`.\n2. **Chia dữ liệu**: Tách 80% train, 20% test bằng slicing.\n3. **Khởi tạo optimizer**: `SGD(model.parameters(), lr=0.01)`\n4. **Training loop**:\n   - `optimizer.zero_grad()` — xóa gradient cũ\n   - `output = model.forward(X_train)` — lan truyền xuôi\n   - Tính loss (Cross-Entropy) và gradient\n   - `model.backward(loss_grad)` — lan truyền ngược\n   - `optimizer.step()` — cập nhật trọng số",
     "starter_code": "from nn import Model\nfrom nn.layers import Linear\nfrom nn.activations import ReLU, Softmax\nfrom nn.optim import SGD\nimport numpy as np\n\nsamples = 1000\nfeatures = 728\nnum_class = 10\n\nX = np.random.rand(samples, features)\nlabels = np.random.randint(0, num_class, size=samples)\nY = np.eye(num_class)[labels]\n\n# ===== DATA PROCESSING =====\n# TODO: Scale dữ liệu X về khoảng phù hợp\n\n\n# TODO: Chia dữ liệu thành tập train/test (80/20)\n\n\n# ===== MODEL =====\nmodel = Model(\n    Linear(728, 512),\n    ReLU(),\n    Linear(512, 256),\n    ReLU(),\n    Linear(256, 10),\n    Softmax()\n)\n\noptimizer = SGD(model.parameters(), lr=0.01)\n\n# ===== TRAINING =====\nepochs = 10\n\nfor epoch in range(epochs):\n    # TODO: Xóa gradient cũ\n\n\n    # TODO: Forward pass\n\n\n    # TODO: Tính loss (Cross-Entropy)\n\n\n    # TODO: Backward pass\n\n\n    # TODO: Cập nhật trọng số bằng optimizer\n\n\n    # TODO: In thông tin loss mỗi epoch\n    pass",
     "answer": "from nn import Model\nfrom nn.layers import Linear\nfrom nn.activations import ReLU, Softmax\nfrom nn.optim import SGD\nimport numpy as np\n\nsamples = 1000\nfeatures = 728\nnum_class = 10\n\nX = np.random.rand(samples, features)\nlabels = np.random.randint(0, num_class, size=samples)\nY = np.eye(num_class)[labels]\n\n# ===== DATA PROCESSING =====\n# Scale dữ liệu X bằng Standardization\nX_mean = np.mean(X, axis=0)\nX_std = np.std(X, axis=0) + 1e-8  # Tránh chia cho 0\nX = (X - X_mean) / X_std\n\n# Chia dữ liệu thành tập train/test (80/20)\nsplit = int(0.8 * samples)\nX_train, X_test = X[:split], X[split:]\nY_train, Y_test = Y[:split], Y[split:]\n\n# ===== MODEL =====\nmodel = Model(\n    Linear(728, 512),\n    ReLU(),\n    Linear(512, 256),\n    ReLU(),\n    Linear(256, 10),\n    Softmax()\n)\n\noptimizer = SGD(model.parameters(), lr=0.01)\n\n# ===== TRAINING =====\nepochs = 10\n\nfor epoch in range(epochs):\n    # Xóa gradient cũ\n    optimizer.zero_grad()\n\n    # Forward pass\n    output = model.forward(X_train)\n\n    # Tính loss (Cross-Entropy)\n    loss = -np.sum(Y_train * np.log(output + 1e-9)) / len(Y_train)\n\n    # Backward pass\n    loss_grad = (output - Y_train) / len(Y_train)\n    model.backward(loss_grad)\n\n    # Cập nhật trọng số bằng optimizer\n    optimizer.step()\n\n    # In thông tin loss mỗi epoch\n    print(f\"Epoch {epoch + 1}/{epochs} - Loss: {loss:.4f}\")"
+  },
+  {
+    "id": "q005",
+    "type": "multiple_choice",
+    "question": "Các phát biểu nào sau đây là đúng?",
+    "options": [
+      {
+        "text": "A. Variable dùng để chỉ một đại lượng cố định đã biết trước.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Một số là variable hay constant phụ thuộc vào vai trò của nó trong bài toán đang xét.",
+        "is_correct": true
+      },
+      {
+        "text": "C. Cùng một đại lượng, ở tình huống này có thể là ẩn số cần tìm (variable), nhưng ở tình huống khác lại là giá trị cố định (constant).",
+        "is_correct": true
+      },
+      {
+        "text": "D. Constant là một giá trị chưa biết hoặc có thể thay đổi.",
+        "is_correct": false
+      }
+    ],
+    "answer": [
+      1,
+      2
+    ],
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q006",
+    "type": "single_choice",
+    "question": "Có các phát biểu về broadcasting như sau, chọn phát biểu đúng nhất:",
+    "options": [
+      {
+        "text": "A. Broadcasting chỉ có thể áp dụng trên các phép toán giữa ma trận và vector.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Bất kỳ hai ma trận bất kỳ đều có thể thực hiện broadcasting.",
+        "is_correct": false
+      },
+      {
+        "text": "C. Với $\\mathbf{A} \\in \\mathbb{R^{4 \\times 3}}$ và $\\mathbf{u} \\in \\mathbb{R^{2 \\times 3}}$, $\\mathbf{A} + \\mathbf{u}$ có thể thực hiện được thông qua broadcasting.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Scalar luôn thực hiện broadcasting được với vector và ma trận.",
+        "is_correct": true
+      }
+    ],
+    "answer": 3,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q007",
+    "type": "multiple_choice",
+    "question": "Những phát biểu nào sau đây là đúng?",
+    "options": [
+      {
+        "text": "A. Scalar dùng để chỉ một dạng ma trận đặc biệt.",
+        "is_correct": true
+      },
+      {
+        "text": "B. Ma trận là tập hợp nhiều vector cột.",
+        "is_correct": true
+      },
+      {
+        "text": "C. Ma trận là trường hợp đặc biệt của vector.",
+        "is_correct": false
+      },
+      {
+        "text": "D. $\\mathbb{R^m}$  là tập hợp các vector gồm m số thực.",
+        "is_correct": true
+      }
+    ],
+    "answer": [
+      0,
+      1,
+      3
+    ],
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q008",
+    "type": "single_choice",
+    "question": "Một bảng dữ liệu chứa điểm của 100 học sinh ở 8 môn học có thể được biểu diễn bằng ma trận nào sau đây?",
+    "options": [
+      {
+        "text": "A. $\\mathbf{X} \\in \\mathbb{R^{8\\times100}}$",
+        "is_correct": false
+      },
+      {
+        "text": "B. $\\mathbf{X} \\in \\mathbb{R^{100\\times8}}$",
+        "is_correct": true
+      },
+      {
+        "text": "C. $\\mathbf{X} \\in \\mathbb{R^{100\\times100}}$",
+        "is_correct": false
+      },
+      {
+        "text": "D. $\\mathbf{X} \\in \\mathbb{R^{8\\times8}}$",
+        "is_correct": false
+      }
+    ],
+    "answer": 1,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q009",
+    "type": "single_choice",
+    "question": "Phát biểu nào là đúng khi nói về Tensor?",
+    "options": [
+      {
+        "text": "A. Không phải ma trận hoặc vector nào cũng là tensor.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Scalar là tensor bậc 0.",
+        "is_correct": true
+      },
+      {
+        "text": "C. Tensor chỉ có tối đa 3 bậc.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Hệ trục tọa độ (x, y, z) có thể được biểu diễn bằng một tensor 2 chiều.",
+        "is_correct": false
+      }
+    ],
+    "answer": 1,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q010",
+    "type": "single_choice",
+    "question": "Khi thực hiện phép cộng giữa vector $\\mathbf{u} = \\begin{bmatrix} 1 \\\\ 3 \\\\ 4  \\end{bmatrix}$ và một một scalar a = 10. Khẳng định nào sau đây là đúng về quá trình và kết quả tính toán này?",
+    "options": [
+      {
+        "text": "A. Hệ thống sẽ báo lỗi vì một vector không thể cộng với một scalar.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Scalar 10 được ngầm hiểu thành vector $\\begin{bmatrix} 10 \\\\ 10 \\\\ 10  \\end{bmatrix}$.",
+        "is_correct": true
+      },
+      {
+        "text": "C. Shape của kết quả phép tính khác với vector ban đầu.",
+        "is_correct": false
+      },
+      {
+        "text": "D. $\\mathbf{u} +a = \\begin{bmatrix} 11 \\\\ 3 \\\\ 4  \\end{bmatrix}$.",
+        "is_correct": false
+      }
+    ],
+    "answer": 1,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q011",
+    "type": "multiple_choice",
+    "question": "Cho hai ma trận $\\mathbf{A} = \\begin{bmatrix} 1 & 2 \\\\ 3 & 4 \\end{bmatrix}$ và $\\mathbf{B} = \\begin{bmatrix} 5 & 6 \\\\ 7 & 8 \\end{bmatrix}$. Những phương trình nào dưới đây biểu diễn đúng kết quả tính toán?",
+    "options": [
+      {
+        "text": "A. $\\mathbf{AB} = \\begin{bmatrix} 19 & 22 \\\\ 43 & 50 \\end{bmatrix}$",
+        "is_correct": true
+      },
+      {
+        "text": "B. $\\mathbf{A \\odot B} = \\begin{bmatrix}  5 & 12 \\\\ 20 & 28 \\end{bmatrix}$",
+        "is_correct": false
+      },
+      {
+        "text": "C. $\\mathbf{A+B} = \\begin{bmatrix} 6 & 8 \\\\ 13 & 12 \\end{bmatrix}$",
+        "is_correct": false
+      },
+      {
+        "text": "D. $\\mathbf{B^T} = \\begin{bmatrix} 5 & 7 \\\\ 6 & 8 \\end{bmatrix}$",
+        "is_correct": true
+      }
+    ],
+    "answer": [
+      0,
+      3
+    ],
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q012",
+    "type": "multiple_choice",
+    "question": "Chọn các phát biểu đúng về phép nhân ma trận:",
+    "options": [
+      {
+        "text": "A. Phép nhân giữa hai ma trận luôn thực hiện được mà không cần quan tâm tới chiều của ma trận.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Với $\\mathbf{A} \\in \\mathbb{R^{4 \\times 2}}$ và $\\mathbf{B} \\in \\mathbb{R^{2 \\times 3}}$ thì $\\mathbf{AB} \\in \\mathbb{R^{4 \\times 3}}$",
+        "is_correct": true
+      },
+      {
+        "text": "C. $\\mathbf{AB} = \\mathbf{BA}$",
+        "is_correct": false
+      },
+      {
+        "text": "D. Dot product chính là một trường hợp của nhân ma trận.",
+        "is_correct": true
+      }
+    ],
+    "answer": [
+      1,
+      3
+    ],
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q013",
+    "type": "multiple_choice",
+    "question": "Khi so sánh giữa inner product $\\mathbf{a^Tb}$ và outer product $\\mathbf{ab^T}$, những phát biểu nào dưới đây là đúng?",
+    "options": [
+      {
+        "text": "A. Để thực hiện inner product hai vector phải cùng độ dài trong khi outer product thì không cần.",
+        "is_correct": true
+      },
+      {
+        "text": "B. Inner product cho kết quả là một scalar thể hiện độ tương đồng hoặc góc giữa hai vector.",
+        "is_correct": true
+      },
+      {
+        "text": "C. Outer product kết hợp hai vector và mở rộng chúng để tạo ra kết quả là một ma trận.",
+        "is_correct": true
+      },
+      {
+        "text": "D. Trong tính toán, inner product và outer product đều trả về một ma trận cùng kích thước khi đầu vào là hai vector.",
+        "is_correct": false
+      }
+    ],
+    "answer": [
+      0,
+      1,
+      2
+    ],
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q014",
+    "type": "single_choice",
+    "question": "Hai biến cố A và B được gọi là xung khắc (mutually exclusive) khi nào?",
+    "options": [
+      {
+        "text": "A. Khi chúng có ít nhất một kết quả chung.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Khi giao của chúng bằng rỗng (A∩B=∅).",
+        "is_correct": true
+      },
+      {
+        "text": "C. Khi hợp của chúng bao gồm tất cả các kết quả có thể.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Khi xác suất xảy ra của A bằng xác suất xảy ra của B.",
+        "is_correct": false
+      }
+    ],
+    "answer": 1,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q015",
+    "type": "single_choice",
+    "question": "Theo quy tắc nhân của xác suất, điều kiện toán học nào sau đây định nghĩa hai biến cố A và B là độc lập (independent) với nhau?",
+    "options": [
+      {
+        "text": "A. P(A∩B)=0",
+        "is_correct": false
+      },
+      {
+        "text": "B. P(A∩B)=P(A)+P(B)",
+        "is_correct": false
+      },
+      {
+        "text": "C. P(A∩B)=P(A)×P(B)",
+        "is_correct": true
+      },
+      {
+        "text": "D. P(A∩B)=1",
+        "is_correct": false
+      }
+    ],
+    "answer": 2,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q016",
+    "type": "single_choice",
+    "question": "Một lớp học có 20 học sinh, trong đó có 12 học sinh giỏi Toán, 8 học sinh giỏi Văn, và 5 học sinh giỏi cả hai môn. Chọn ngẫu nhiên lần lượt 2 học sinh từ lớp để tham gia đội tuyển. Tính xác suất cả hai học sinh được chọn chỉ giỏi Toán hoặc Văn.",
+    "options": [
+      {
+        "text": "A. 12/19",
+        "is_correct": false
+      },
+      {
+        "text": "B. 15/19",
+        "is_correct": false
+      },
+      {
+        "text": "C. 3/4",
+        "is_correct": false
+      },
+      {
+        "text": "D. 14/19",
+        "is_correct": true
+      }
+    ],
+    "answer": 3,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q017",
+    "type": "single_choice",
+    "question": "Giả sử một tập dữ liệu mẫu (sample) về cân nặng của 5 con chuột được rút ra từ một quần thể tuân theo phân phối chuẩn, với các giá trị: X={3,13,19,24,29}. Ước tính mean, variance và standard variation của mẫu?",
+    "options": [
+      {
+        "text": "A. Mean = 17.6, Var = 101.8, Std = 10.09",
+        "is_correct": true
+      },
+      {
+        "text": "B. Mean = 17.6, Var = 81.44, Std = 9.02",
+        "is_correct": false
+      },
+      {
+        "text": "C. Mean = 17.6, Var = 407.2, Std = 20.17",
+        "is_correct": false
+      },
+      {
+        "text": "D. Mean = 20.0, Var = 101.8, Std = 10.09",
+        "is_correct": false
+      }
+    ],
+    "answer": 0,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q018",
+    "type": "single_choice",
+    "question": "Trong tính toán thống kê, tại sao công thức tính Phương sai mẫu lại phải chia cho bậc tự do (n−1) thay vì chia cho toàn bộ số lượng mẫu n?",
+    "options": [
+      {
+        "text": "A. Vì (n−1) làm cho phép tính đơn giản và nhanh hơn đối với máy tính.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Vì chia cho n luôn tạo ra giá trị âm cho phương sai.",
+        "is_correct": false
+      },
+      {
+        "text": "C. Vì nếu chia cho n, chúng ta sẽ phương sai mẫu sẽ luôn nhỏ hơn phương sai thực của quần thể.",
+        "is_correct": true
+      },
+      {
+        "text": "D. Vì đó là quy ước riêng cho các tập dữ liệu có kích thước dưới 30 mẫu.",
+        "is_correct": false
+      }
+    ],
+    "answer": 2,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q019",
+    "type": "single_choice",
+    "question": "Chọn phát biểu đúng nhất trong các phát biểu về Mean (trung bình), Median (trung vị) và Mode (yếu vị)?",
+    "options": [
+      {
+        "text": "A. Mean là giá trị nằm ở chính giữa tập dữ liệu sau khi được sắp xếp, Median là giá trị xuất hiện nhiều nhất, còn Mode là trung bình cộng của tất cả các giá trị.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Mean là giá trị trung bình cộng của các giá trị, Median là giá trị nằm ở vị trí chính giữa sau khi tập dữ liệu đã được sắp xếp, còn Mode là giá trị có tần suất xuất hiện cao nhất.",
+        "is_correct": true
+      },
+      {
+        "text": "C. Mean luôn luôn lớn hơn Median, và Median luôn luôn lớn hơn Mode trong mọi loại phân phối dữ liệu.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Cả Mean, Median và Mode đều bắt buộc phải trải qua bước sắp xếp dữ liệu (sorting) trước khi tính toán.",
+        "is_correct": false
+      }
+    ],
+    "answer": 1,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q020",
+    "type": "single_choice",
+    "question": "Một công ty muốn biết mức lương điển hình của nhân viên nhưng dữ liệu có một vài mức lương rất cao. Đại lượng nào phản ánh đúng nhất xu hướng trung tâm trong trường hợp này?",
+    "options": [
+      {
+        "text": "A. Mean (trung bình)",
+        "is_correct": false
+      },
+      {
+        "text": "B. Median (trung vị)",
+        "is_correct": true
+      },
+      {
+        "text": "C. Mode (yếu vị)",
+        "is_correct": false
+      },
+      {
+        "text": "D. Độ lệch chuẩn",
+        "is_correct": false
+      }
+    ],
+    "answer": 1,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q021",
+    "type": "single_choice",
+    "question": "Một bác sĩ muốn đánh giá độ ổn định của huyết áp bệnh nhân qua nhiều lần đo. Đại lượng nào giúp bác sĩ đánh giá mức độ dao động của các lần đo?",
+    "options": [
+      {
+        "text": "A. Mean",
+        "is_correct": false
+      },
+      {
+        "text": "B. Mode",
+        "is_correct": false
+      },
+      {
+        "text": "C. Phương sai (hoặc độ lệch chuẩn)",
+        "is_correct": true
+      },
+      {
+        "text": "D. Tần số tích lũy",
+        "is_correct": false
+      }
+    ],
+    "answer": 2,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q022",
+    "type": "single_choice",
+    "question": "Cho bảng tần số điểm thi của một lớp. Nếu đề thi rất khó và phần lớn học sinh đạt điểm thấp, dạng phân bố nào sau đây có khả năng xảy ra?",
+    "options": [
+      {
+        "text": "A. Phân bố đối xứng",
+        "is_correct": false
+      },
+      {
+        "text": "B. Phân bố lệch phải",
+        "is_correct": false
+      },
+      {
+        "text": "C. Phân bố lệch trái",
+        "is_correct": true
+      },
+      {
+        "text": "D. Phân bố đều",
+        "is_correct": false
+      }
+    ],
+    "answer": 2,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q023",
+    "type": "multiple_choice",
+    "question": "Tại sao cần chuẩn hóa (normalize) dữ liệu đầu vào trước khi huấn luyện mạng nơ-ron?",
+    "options": [
+      {
+        "text": "A. Giúp gradient descent hội tụ nhanh và ổn định hơn",
+        "is_correct": true
+      },
+      {
+        "text": "B. Tránh việc một số đặc trưng có giá trị lớn lấn át các đặc trưng khác",
+        "is_correct": true
+      },
+      {
+        "text": "C. Giúp tăng số lớp ẩn của mạng",
+        "is_correct": false
+      },
+      {
+        "text": "D. Giảm hiện tượng exploding/vanishing gradient",
+        "is_correct": true
+      }
+    ],
+    "answer": [
+      0,
+      1,
+      3
+    ],
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q024",
+    "type": "single_choice",
+    "question": "Trong quá trình thiết kế mạng nơ-ron, nếu mô hình của bạn sử dụng tập dữ liệu gồm 10 danh mục quần áo khác nhau, thiết kế của lớp đầu ra (Output layer) bắt buộc phải như thế nào?",
+    "options": [
+      {
+        "text": "A. Tuân theo một phân bố xác suất.",
+        "is_correct": true
+      },
+      {
+        "text": "B. Có 11 class do cần phải tính tới trường hợp ảnh không nhận diện được ảnh.",
+        "is_correct": false
+      },
+      {
+        "text": "C. Số chiều output bằng số chiều của input.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Số lượng node có thể tùy ý lựa chọn miễn là dùng hàm Softmax.",
+        "is_correct": false
+      }
+    ],
+    "answer": 0,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q025",
+    "type": "multiple_choice",
+    "question": "Đâu là các phát biểu đúng về các mạng học nông (Shallow Learning) và mạng  học sâu (Deep Learning)?",
+    "options": [
+      {
+        "text": "A. Mạng học sâu chứa rất nhiều lớp ẩn, cho nên chúng luôn cho ra kết quả tốt hơn mạng học nông.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Mạng học nông chỉ có một hoặc vài lớp nơ-ron, dễ huấn luyện và yêu cầu ít tài nguyên máy tính hơn.",
+        "is_correct": true
+      },
+      {
+        "text": "C. Tất cả các mạng học sâu đều được xây dựng dựa trên neural network.",
+        "is_correct": true
+      },
+      {
+        "text": "D. Dễ để giải thích cách mạng học sâu đưa ra quyêt đinh hơn mạng học nông.",
+        "is_correct": false
+      }
+    ],
+    "answer": [
+      1,
+      2
+    ],
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q026",
+    "type": "single_choice",
+    "question": "Tại sao mạng nơ-ron bắt buộc phải sử dụng các hàm kích hoạt (Activation functions) tại các hidden node?",
+    "options": [
+      {
+        "text": "A. Để loại bỏ hoàn toàn các giá trị âm trong dữ liệu đầu vào.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Để thêm tính phi tuyến vào mô hình neural network.",
+        "is_correct": true
+      },
+      {
+        "text": "C. Để tự động chuẩn hóa dữ liệu thành khoảng.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Để tăng kích thước của batch trong quá trình huấn luyện.",
+        "is_correct": false
+      }
+    ],
+    "answer": 1,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q027",
+    "type": "single_choice",
+    "question": "Tại sao thao tác khởi tạo trọng số trong Neural Network thường được thực hiện một cách ngẫu nhiên thay vì đặt tất cả bằng 0 ?",
+    "options": [
+      {
+        "text": "A. Đặt bằng 0 sẽ làm máy tính báo lỗi chia cho 0.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Nếu tất cả trọng số bằng 0, các neuron trong cùng lớp sẽ học giống hệt nhau.",
+        "is_correct": true
+      },
+      {
+        "text": "C. Khởi tạo ngẫu nhiên tiết kiệm bộ nhớ RAM.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Trọng số bằng 0 sẽ khiến hàm mất mát luôn trả về số âm.",
+        "is_correct": false
+      }
+    ],
+    "answer": 1,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q028",
+    "type": "single_choice",
+    "question": "Nguyên nhân chính giúp cho ReLU được sử dụng rộng rãi trong neural network?",
+    "options": [
+      {
+        "text": "A. ReLU biến vào âm trở thành 0, giúp giảm chi phí tính toán.",
+        "is_correct": false
+      },
+      {
+        "text": "B. ReLU giúp giảm hiện tượng vanishing gradient.",
+        "is_correct": true
+      },
+      {
+        "text": "C. ReLU có công thức đơn giản, dễ tính đạo hàm.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Đầu ra của ReLU không bị bão hòa ở cực dương.",
+        "is_correct": false
+      }
+    ],
+    "answer": 1,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q029",
+    "type": "multiple_choice",
+    "question": "Các phát biểu nào là đúng về learning rate?",
+    "options": [
+      {
+        "text": "A. Learning rate kiểm soát tốc độ hội tụ của mô hình.",
+        "is_correct": true
+      },
+      {
+        "text": "B. Learning rate quá lớn, loss có thể dao động mạnh hoặc không hội tụ.",
+        "is_correct": true
+      },
+      {
+        "text": "C. Learning rate quyết định số lượng lớp ẩn trong mạng.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Learning rate lớn, mô hình luôn hội tụ nhanh hơn và chính xác hơn.",
+        "is_correct": false
+      }
+    ],
+    "answer": [
+      0,
+      1
+    ],
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q030",
+    "type": "single_choice",
+    "question": "Phát biểu nào sau đây là sai?",
+    "options": [
+      {
+        "text": "A. Bias và variance luôn tỉ lệ nghịch tuyệt đối với nhau trong mọi mô hình",
+        "is_correct": true
+      },
+      {
+        "text": "B. Một mô hình tuyến tính đơn giản áp dụng cho dữ liệu phi tuyến phức tạp thường có bias cao.",
+        "is_correct": false
+      },
+      {
+        "text": "C. Một mạng neuron sâu được train với nhiều dữ liệu sẽ giúp giảm cả bias và variance.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Tăng số lượng dữ liệu huấn luyện thường giúp giảm variance.",
+        "is_correct": false
+      }
+    ],
+    "answer": 0,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q031",
+    "type": "single_choice",
+    "question": "Batch (hay mini-batch) là gì?",
+    "options": [
+      {
+        "text": "A. Toàn bộ tập dữ liệu huấn luyện",
+        "is_correct": false
+      },
+      {
+        "text": "B. Một nhóm nhỏ các mẫu dữ liệu được đưa vào mô hình cùng lúc để tính gradient và cập nhật trọng số",
+        "is_correct": true
+      },
+      {
+        "text": "C. Số lần lặp lại quá trình huấn luyện",
+        "is_correct": false
+      },
+      {
+        "text": "D. Một lớp (layer) trong mạng nơ-ron",
+        "is_correct": false
+      }
+    ],
+    "answer": 1,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q032",
+    "type": "single_choice",
+    "question": "Epoch là gì?",
+    "options": [
+      {
+        "text": "A. Một lần cập nhật trọng số duy nhất.",
+        "is_correct": false
+      },
+      {
+        "text": "B. Số lượng mẫu dữ liệu trong một lần huấn luyện.",
+        "is_correct": false
+      },
+      {
+        "text": "C. Tốc độ học của mô hình.",
+        "is_correct": false
+      },
+      {
+        "text": "D. Một lần toàn bộ tập dữ liệu huấn luyện được đưa qua mô hình một lượt",
+        "is_correct": true
+      }
+    ],
+    "answer": 3,
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q033",
+    "type": "multiple_choice",
+    "question": "Vai trò của tập Validation trong quá trình huấn luyện là gì?",
+    "options": [
+      {
+        "text": "A. Dùng để tinh chỉnh hyperparameter (learning rate, số layer, batch size...)",
+        "is_correct": true
+      },
+      {
+        "text": "B. Dùng để cập nhật trực tiếp trọng số của mô hình giống như tập train",
+        "is_correct": false
+      },
+      {
+        "text": "C. Có thể dùng để quyết định thời điểm early stopping",
+        "is_correct": true
+      },
+      {
+        "text": "D. Giúp phát hiện overfitting thông qua việc theo dõi khoảng cách giữa train loss và validation loss",
+        "is_correct": true
+      }
+    ],
+    "answer": [
+      0,
+      2,
+      3
+    ],
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q034",
+    "type": "essay_text",
+    "question": "Trình bày ngắn ngọn ý nghĩa và các bước thực hiện thuật toán Gradient Descent.",
+    "answer": "",
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q035",
+    "type": "essay_text",
+    "question": "Neural network là gì? Phân biệt neural network với các thuật toán khác trong machine learning, nêu rõ ưu nhược điểm.",
+    "answer": "",
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q036",
+    "type": "essay_text",
+    "question": "Vanishing/Exploding gradient là gì, có ảnh hưởng như thế nào đến quá trình học của neural network. Nêu một số cách để khắc phục.",
+    "answer": "",
+    "images": [],
+    "explanation": ""
+  },
+  {
+    "id": "q037",
+    "type": "essay_text",
+    "question": "Cho mô hình Neural Network sau:\\n\\n(ảnh: images/nn.png)\\n\\nGọi $x \\in \\mathbb{R}^3$ là vector input, $W^{[1]}, b^{[1]}$ lần lượt là trọng số và bias của lớp ẩn thứ nhất, $W^{[2]}, b^{[2]}$ là trọng số và bias của lớp ẩn thứ hai, $W^{[3]}, b^{[3]}$ là trọng số và bias của lớp output. Gọi $f$ là hàm kích hoạt dùng cho các lớp ẩn, $g$ là hàm kích hoạt dùng cho lớp output. Hãy mô tả quá trình lan truyền xuôi (forward pass) từ input tới output của mạng trên. Lưu ý có ký hiệu đầy đủ chiều của các vector, ma trận.",
+    "answer": "",
+    "images": [
+      "images/nn.png"
+    ],
+    "explanation": ""
+  },
+  {
+    "id": "q038",
+    "type": "essay_text",
+    "question": "Cho mô hình Neural Network sau: \\n\\n(ảnh: images/nn.png)\\n\\nGọi $x \\in \\mathbb{R}^3$ là vector input, $W^{[1]}, b^{[1]}$ lần lượt là trọng số và bias của lớp ẩn thứ nhất, $W^{[2]}, b^{[2]}$ là trọng số và bias của lớp ẩn thứ hai, $W^{[3]}, b^{[3]}$ là trọng số và bias của lớp output. Gọi $f$ là hàm kích hoạt dùng cho các lớp ẩn, $g$ là hàm kích hoạt dùng cho lớp output. Hãy mô tả quá trình lan truyền ngược (backpropagation) của mạng. Lưu ý có ký hiệu đầy đủ chiều của các vector, ma trận.",
+    "answer": "",
+    "images": [
+      "images/nn.png"
+    ],
+    "explanation": ""
+  },
+  {
+    "id": "q039",
+    "type": "essay_text",
+    "question": "Một công ty muốn xây dựng hệ thống lọc email rác (spam). Dữ liệu gồm 10.000 email (7.000 spam, 3.000 hợp lệ). Mỗi email có các đặc trưng số. Hãy trình bày quy trình xây dựng một mô hình machine learning cho hệ thống này, nêu các bước và giải thích ngắn gọn từng bước.",
+    "answer": "",
+    "images": [],
+    "explanation": ""
   }
 ]

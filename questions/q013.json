@@ -1,0 +1,14 @@
+{
+  "id": "q013",
+  "type": "multiple_choice",
+  "question": "Khi so sánh giữa inner product $\\mathbf{a^Tb}$ và outer product $\\mathbf{ab^T}$, những phát biểu nào dưới đây là đúng?", 
+  "options": [
+    { "text": "A. Để thực hiện inner product hai vector phải cùng độ dài trong khi outer product thì không cần.", "is_correct": true },
+    { "text": "B. Inner product cho kết quả là một scalar thể hiện độ tương đồng hoặc góc giữa hai vector.", "is_correct": true },
+    { "text": "C. Outer product kết hợp hai vector và mở rộng chúng để tạo ra kết quả là một ma trận.", "is_correct": true },
+    { "text": "D. Trong tính toán, inner product và outer product đều trả về một ma trận cùng kích thước khi đầu vào là hai vector.", "is_correct": false }
+  ],
+  "answer": [0, 1, 2],
+  "images": [],
+  "explanation": ""
+}

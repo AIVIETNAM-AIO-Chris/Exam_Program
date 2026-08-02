@@ -1,0 +1,14 @@
+{
+  "id": "q025",
+  "type": "multiple_choice",
+  "question": "Đâu là các phát biểu đúng về các mạng học nông (Shallow Learning) và mạng  học sâu (Deep Learning)?",
+  "options": [
+    { "text": "A. Mạng học sâu chứa rất nhiều lớp ẩn, cho nên chúng luôn cho ra kết quả tốt hơn mạng học nông.", "is_correct": false },
+    { "text": "B. Mạng học nông chỉ có một hoặc vài lớp nơ-ron, dễ huấn luyện và yêu cầu ít tài nguyên máy tính hơn.", "is_correct": true },
+    { "text": "C. Tất cả các mạng học sâu đều được xây dựng dựa trên neural network.", "is_correct": true },
+    { "text": "D. Dễ để giải thích cách mạng học sâu đưa ra quyêt đinh hơn mạng học nông.", "is_correct": false }
+  ],
+  "answer": [1, 2],
+  "images": [],
+  "explanation": ""
+}

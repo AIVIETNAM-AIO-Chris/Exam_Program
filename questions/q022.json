@@ -1,0 +1,14 @@
+{
+  "id": "q022",
+  "type": "single_choice",
+  "question": "Cho bảng tần số điểm thi của một lớp. Nếu đề thi rất khó và phần lớn học sinh đạt điểm thấp, dạng phân bố nào sau đây có khả năng xảy ra?",
+  "options": [
+    { "text": "A. Phân bố đối xứng", "is_correct": false },
+    { "text": "B. Phân bố lệch phải", "is_correct": false },
+    { "text": "C. Phân bố lệch trái", "is_correct": true },
+    { "text": "D. Phân bố đều", "is_correct": false }
+  ],
+  "answer": 2,
+  "images": [],
+  "explanation": ""
+}

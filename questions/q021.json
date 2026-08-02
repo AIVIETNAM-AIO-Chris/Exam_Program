@@ -1,0 +1,14 @@
+{
+  "id": "q021",
+  "type": "single_choice",
+  "question": "Một bác sĩ muốn đánh giá độ ổn định của huyết áp bệnh nhân qua nhiều lần đo. Đại lượng nào giúp bác sĩ đánh giá mức độ dao động của các lần đo?",
+  "options": [
+    { "text": "A. Mean", "is_correct": false },
+    { "text": "B. Mode", "is_correct": false },
+    { "text": "C. Phương sai (hoặc độ lệch chuẩn)", "is_correct": true },
+    { "text": "D. Tần số tích lũy", "is_correct": false }
+  ],
+  "answer": 2,
+  "images": [],
+  "explanation": ""
+}

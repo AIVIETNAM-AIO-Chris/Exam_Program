@@ -1,0 +1,14 @@
+{
+  "id": "q019",
+  "type": "single_choice",
+  "question": "Chọn phát biểu đúng nhất trong các phát biểu về Mean (trung bình), Median (trung vị) và Mode (yếu vị)?",
+  "options": [
+    { "text": "A. Mean là giá trị nằm ở chính giữa tập dữ liệu sau khi được sắp xếp, Median là giá trị xuất hiện nhiều nhất, còn Mode là trung bình cộng của tất cả các giá trị.", "is_correct": false },
+    { "text": "B. Mean là giá trị trung bình cộng của các giá trị, Median là giá trị nằm ở vị trí chính giữa sau khi tập dữ liệu đã được sắp xếp, còn Mode là giá trị có tần suất xuất hiện cao nhất.", "is_correct": true },
+    { "text": "C. Mean luôn luôn lớn hơn Median, và Median luôn luôn lớn hơn Mode trong mọi loại phân phối dữ liệu.", "is_correct": false },
+    { "text": "D. Cả Mean, Median và Mode đều bắt buộc phải trải qua bước sắp xếp dữ liệu (sorting) trước khi tính toán.", "is_correct": false }
+  ],
+  "answer": 1,
+  "images": [],
+  "explanation": ""
+}

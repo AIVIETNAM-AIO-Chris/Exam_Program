@@ -1,0 +1,14 @@
+{
+  "id": "q029",
+  "type": "multiple_choice",
+  "question": "Các phát biểu nào là đúng về learning rate?",
+  "options": [
+    { "text": "A. Learning rate kiểm soát tốc độ hội tụ của mô hình.", "is_correct": true },
+    { "text": "B. Learning rate quá lớn, loss có thể dao động mạnh hoặc không hội tụ.", "is_correct": true },
+    { "text": "C. Learning rate quyết định số lượng lớp ẩn trong mạng.", "is_correct": false },
+    { "text": "D. Learning rate lớn, mô hình luôn hội tụ nhanh hơn và chính xác hơn.", "is_correct": false }
+  ],
+  "answer": [0, 1],
+  "images": [],
+  "explanation": ""
+}

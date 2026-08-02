@@ -1,0 +1,14 @@
+{
+  "id": "q007",
+  "type": "multiple_choice",
+  "question": "Những phát biểu nào sau đây là đúng?",
+  "options": [
+    { "text": "A. Scalar dùng để chỉ một dạng ma trận đặc biệt.", "is_correct": true },
+    { "text": "B. Ma trận là tập hợp nhiều vector cột.", "is_correct": true },
+    { "text": "C. Ma trận là trường hợp đặc biệt của vector.", "is_correct": false },
+    { "text": "D. $\\mathbb{R^m}$  là tập hợp các vector gồm m số thực.", "is_correct": true }
+  ],
+  "answer": [0, 1, 3],
+  "images": [],
+  "explanation": ""
+}

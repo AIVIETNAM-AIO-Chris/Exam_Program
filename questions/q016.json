@@ -1,0 +1,14 @@
+{
+  "id": "q016",
+  "type": "single_choice",
+  "question": "Một lớp học có 20 học sinh, trong đó có 12 học sinh giỏi Toán, 8 học sinh giỏi Văn, và 5 học sinh giỏi cả hai môn. Chọn ngẫu nhiên lần lượt 2 học sinh từ lớp để tham gia đội tuyển. Tính xác suất cả hai học sinh được chọn chỉ giỏi Toán hoặc Văn.",
+  "options": [
+    { "text": "A. 12/19", "is_correct": false },
+    { "text": "B. 15/19", "is_correct": false },
+    { "text": "C. 3/4", "is_correct": false },
+    { "text": "D. 14/19", "is_correct": true }
+  ],
+  "answer": 3,
+  "images": [],
+  "explanation": ""
+}

@@ -1,0 +1,14 @@
+{
+  "id": "q026",
+  "type": "single_choice",
+  "question": "Tại sao mạng nơ-ron bắt buộc phải sử dụng các hàm kích hoạt (Activation functions) tại các hidden node?",
+  "options": [
+    { "text": "A. Để loại bỏ hoàn toàn các giá trị âm trong dữ liệu đầu vào.", "is_correct": false },
+    { "text": "B. Để thêm tính phi tuyến vào mô hình neural network.", "is_correct": true },
+    { "text": "C. Để tự động chuẩn hóa dữ liệu thành khoảng.", "is_correct": false },
+    { "text": "D. Để tăng kích thước của batch trong quá trình huấn luyện.", "is_correct": false }
+  ],
+  "answer": 1,
+  "images": [],
+  "explanation": ""
+}

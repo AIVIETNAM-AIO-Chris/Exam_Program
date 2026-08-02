@@ -1,0 +1,14 @@
+{
+  "id": "q014",
+  "type": "single_choice",
+  "question": "Hai biến cố A và B được gọi là xung khắc (mutually exclusive) khi nào?",
+  "options": [
+    { "text": "A. Khi chúng có ít nhất một kết quả chung.", "is_correct": false },
+    { "text": "B. Khi giao của chúng bằng rỗng (A∩B=∅).", "is_correct": true },
+    { "text": "C. Khi hợp của chúng bao gồm tất cả các kết quả có thể.", "is_correct": false },
+    { "text": "D. Khi xác suất xảy ra của A bằng xác suất xảy ra của B.", "is_correct": false }
+  ],
+  "answer": 1,
+  "images": [],
+  "explanation": ""
+}

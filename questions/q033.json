@@ -1,0 +1,14 @@
+{
+  "id": "q033",
+  "type": "multiple_choice",
+  "question": "Vai trò của tập Validation trong quá trình huấn luyện là gì?",
+  "options": [
+    { "text": "A. Dùng để tinh chỉnh hyperparameter (learning rate, số layer, batch size...)", "is_correct": true },
+    { "text": "B. Dùng để cập nhật trực tiếp trọng số của mô hình giống như tập train", "is_correct": false },
+    { "text": "C. Có thể dùng để quyết định thời điểm early stopping", "is_correct": true },
+    { "text": "D. Giúp phát hiện overfitting thông qua việc theo dõi khoảng cách giữa train loss và validation loss", "is_correct": true }
+  ],
+  "answer": [0, 2, 3],
+  "images": [],
+  "explanation": ""
+}

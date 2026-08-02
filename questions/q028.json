@@ -1,0 +1,14 @@
+{
+  "id": "q028",
+  "type": "single_choice",
+  "question": "Nguyên nhân chính giúp cho ReLU được sử dụng rộng rãi trong neural network?",
+  "options": [
+    { "text": "A. ReLU biến vào âm trở thành 0, giúp giảm chi phí tính toán.", "is_correct": false },
+    { "text": "B. ReLU giúp giảm hiện tượng vanishing gradient.", "is_correct": true },
+    { "text": "C. ReLU có công thức đơn giản, dễ tính đạo hàm.", "is_correct": false },
+    { "text": "D. Đầu ra của ReLU không bị bão hòa ở cực dương.", "is_correct": false }
+  ],
+  "answer": 1,
+  "images": [],
+  "explanation": ""
+}

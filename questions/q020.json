@@ -1,0 +1,14 @@
+{
+  "id": "q020",
+  "type": "single_choice",
+  "question": "Một công ty muốn biết mức lương điển hình của nhân viên nhưng dữ liệu có một vài mức lương rất cao. Đại lượng nào phản ánh đúng nhất xu hướng trung tâm trong trường hợp này?",
+  "options": [
+    { "text": "A. Mean (trung bình)", "is_correct": false },
+    { "text": "B. Median (trung vị)", "is_correct": true },
+    { "text": "C. Mode (yếu vị)", "is_correct": false },
+    { "text": "D. Độ lệch chuẩn", "is_correct": false }
+  ],
+  "answer": 1,
+  "images": [],
+  "explanation": ""
+}

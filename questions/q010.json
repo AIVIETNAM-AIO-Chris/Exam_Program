@@ -1,0 +1,14 @@
+{
+  "id": "q010",
+  "type": "single_choice",
+  "question": "Khi thực hiện phép cộng giữa vector $\\mathbf{u} = \\begin{bmatrix} 1 \\\\ 3 \\\\ 4  \\end{bmatrix}$ và một một scalar a = 10. Khẳng định nào sau đây là đúng về quá trình và kết quả tính toán này?", 
+  "options": [
+    { "text": "A. Hệ thống sẽ báo lỗi vì một vector không thể cộng với một scalar.", "is_correct": false },
+    { "text": "B. Scalar 10 được ngầm hiểu thành vector $\\begin{bmatrix} 10 \\\\ 10 \\\\ 10  \\end{bmatrix}$.", "is_correct": true },
+    { "text": "C. Shape của kết quả phép tính khác với vector ban đầu.", "is_correct": false },
+    { "text": "D. $\\mathbf{u} +a = \\begin{bmatrix} 11 \\\\ 3 \\\\ 4  \\end{bmatrix}$.", "is_correct": false }
+  ],
+  "answer": 1,
+  "images": [],
+  "explanation": ""
+}

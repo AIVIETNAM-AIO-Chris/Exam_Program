@@ -1,0 +1,14 @@
+{
+  "id": "q009",
+  "type": "single_choice",
+  "question": "Phát biểu nào là đúng khi nói về Tensor?",
+  "options": [
+    { "text": "A. Không phải ma trận hoặc vector nào cũng là tensor.", "is_correct": false },
+    { "text": "B. Scalar là tensor bậc 0.", "is_correct": true },
+    { "text": "C. Tensor chỉ có tối đa 3 bậc.", "is_correct": false },
+    { "text": "D. Hệ trục tọa độ (x, y, z) có thể được biểu diễn bằng một tensor 2 chiều.", "is_correct": false }
+  ],
+  "answer": 1,
+  "images": [],
+  "explanation": ""
+}

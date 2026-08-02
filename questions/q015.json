@@ -1,0 +1,14 @@
+{
+  "id": "q015",
+  "type": "single_choice",
+  "question": "Theo quy tắc nhân của xác suất, điều kiện toán học nào sau đây định nghĩa hai biến cố A và B là độc lập (independent) với nhau?",
+  "options": [
+    { "text": "A. P(A∩B)=0", "is_correct": false },
+    { "text": "B. P(A∩B)=P(A)+P(B)", "is_correct": false },
+    { "text": "C. P(A∩B)=P(A)×P(B)", "is_correct": true },
+    { "text": "D. P(A∩B)=1", "is_correct": false }
+  ],
+  "answer": 2,
+  "images": [],
+  "explanation": ""
+}

@@ -1,0 +1,14 @@
+{
+  "id": "q030",
+  "type": "single_choice",
+  "question": "Phát biểu nào sau đây là sai?",
+  "options": [
+    { "text": "A. Bias và variance luôn tỉ lệ nghịch tuyệt đối với nhau trong mọi mô hình", "is_correct": true },
+    { "text": "B. Một mô hình tuyến tính đơn giản áp dụng cho dữ liệu phi tuyến phức tạp thường có bias cao.", "is_correct": false },
+    { "text": "C. Một mạng neuron sâu được train với nhiều dữ liệu sẽ giúp giảm cả bias và variance.", "is_correct": false },
+    { "text": "D. Tăng số lượng dữ liệu huấn luyện thường giúp giảm variance.", "is_correct": false }
+  ],
+  "answer": 0,
+  "images": [],
+  "explanation": ""
+}

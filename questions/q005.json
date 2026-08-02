@@ -1,0 +1,14 @@
+{
+  "id": "q005",
+  "type": "multiple_choice",
+  "question": "Các phát biểu nào sau đây là đúng?",
+  "options": [
+    { "text": "A. Variable dùng để chỉ một đại lượng cố định đã biết trước.", "is_correct": false },
+    { "text": "B. Một số là variable hay constant phụ thuộc vào vai trò của nó trong bài toán đang xét.", "is_correct": true },
+    { "text": "C. Cùng một đại lượng, ở tình huống này có thể là ẩn số cần tìm (variable), nhưng ở tình huống khác lại là giá trị cố định (constant).", "is_correct": true },
+    { "text": "D. Constant là một giá trị chưa biết hoặc có thể thay đổi.", "is_correct": false }
+  ],
+  "answer": [1, 2],
+  "images": [],
+  "explanation": ""
+}

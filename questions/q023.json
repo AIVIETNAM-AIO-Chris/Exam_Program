@@ -1,0 +1,14 @@
+{
+  "id": "q023",
+  "type": "multiple_choice",
+  "question": "Tại sao cần chuẩn hóa (normalize) dữ liệu đầu vào trước khi huấn luyện mạng nơ-ron?",
+  "options": [
+    { "text": "A. Giúp gradient descent hội tụ nhanh và ổn định hơn", "is_correct": true },
+    { "text": "B. Tránh việc một số đặc trưng có giá trị lớn lấn át các đặc trưng khác", "is_correct": true },
+    { "text": "C. Giúp tăng số lớp ẩn của mạng", "is_correct": false },
+    { "text": "D. Giảm hiện tượng exploding/vanishing gradient", "is_correct": true }
+  ],
+  "answer": [0, 1, 3],
+  "images": [],
+  "explanation": ""
+}

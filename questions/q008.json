@@ -1,0 +1,14 @@
+{
+  "id": "q008",
+  "type": "single_choice",
+  "question": "Một bảng dữ liệu chứa điểm của 100 học sinh ở 8 môn học có thể được biểu diễn bằng ma trận nào sau đây?",
+  "options": [
+    { "text": "A. $\\mathbf{X} \\in \\mathbb{R^{8\\times100}}$", "is_correct": false },
+    { "text": "B. $\\mathbf{X} \\in \\mathbb{R^{100\\times8}}$", "is_correct": true },
+    { "text": "C. $\\mathbf{X} \\in \\mathbb{R^{100\\times100}}$", "is_correct": false },
+    { "text": "D. $\\mathbf{X} \\in \\mathbb{R^{8\\times8}}$", "is_correct": false }
+  ],
+  "answer": 1,
+  "images": [],
+  "explanation": ""
+}

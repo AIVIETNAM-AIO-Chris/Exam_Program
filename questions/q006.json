@@ -1,0 +1,14 @@
+{
+  "id": "q006",
+  "type": "single_choice",
+  "question": "Có các phát biểu về broadcasting như sau, chọn phát biểu đúng nhất:",
+  "options": [
+    { "text": "A. Broadcasting chỉ có thể áp dụng trên các phép toán giữa ma trận và vector.", "is_correct": false },
+    { "text": "B. Bất kỳ hai ma trận bất kỳ đều có thể thực hiện broadcasting.", "is_correct": false },
+    { "text": "C. Với $\\mathbf{A} \\in \\mathbb{R^{4 \\times 3}}$ và $\\mathbf{u} \\in \\mathbb{R^{2 \\times 3}}$, $\\mathbf{A} + \\mathbf{u}$ có thể thực hiện được thông qua broadcasting.", "is_correct": false },
+    { "text": "D. Scalar luôn thực hiện broadcasting được với vector và ma trận.", "is_correct": true }
+  ],
+  "answer": 3,
+  "images": [],
+  "explanation": ""
+}

@@ -1,0 +1,8 @@
+{
+  "id": "q039",
+  "type": "essay_text",
+  "question": "Một công ty muốn xây dựng hệ thống lọc email rác (spam). Dữ liệu gồm 10.000 email (7.000 spam, 3.000 hợp lệ). Mỗi email có các đặc trưng số. Hãy trình bày quy trình xây dựng một mô hình machine learning cho hệ thống này, nêu các bước và giải thích ngắn gọn từng bước.",
+  "answer": "",
+  "images": [],
+  "explanation": ""
+}

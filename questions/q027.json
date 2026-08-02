@@ -1,0 +1,14 @@
+{
+  "id": "q027",
+  "type": "single_choice",
+  "question": "Tại sao thao tác khởi tạo trọng số trong Neural Network thường được thực hiện một cách ngẫu nhiên thay vì đặt tất cả bằng 0 ?",
+  "options": [
+    { "text": "A. Đặt bằng 0 sẽ làm máy tính báo lỗi chia cho 0.", "is_correct": false },
+    { "text": "B. Nếu tất cả trọng số bằng 0, các neuron trong cùng lớp sẽ học giống hệt nhau.", "is_correct": true },
+    { "text": "C. Khởi tạo ngẫu nhiên tiết kiệm bộ nhớ RAM.", "is_correct": false },
+    { "text": "D. Trọng số bằng 0 sẽ khiến hàm mất mát luôn trả về số âm.", "is_correct": false }
+  ],
+  "answer": 1,
+  "images": [],
+  "explanation": ""
+}

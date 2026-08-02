@@ -1,0 +1,14 @@
+{
+  "id": "q031",
+  "type": "single_choice",
+  "question": "Batch (hay mini-batch) là gì?",
+  "options": [
+    { "text": "A. Toàn bộ tập dữ liệu huấn luyện", "is_correct": false },
+    { "text": "B. Một nhóm nhỏ các mẫu dữ liệu được đưa vào mô hình cùng lúc để tính gradient và cập nhật trọng số", "is_correct": true },
+    { "text": "C. Số lần lặp lại quá trình huấn luyện", "is_correct": false },
+    { "text": "D. Một lớp (layer) trong mạng nơ-ron", "is_correct": false }
+  ],
+  "answer": 1,
+  "images": [],
+  "explanation": ""
+}

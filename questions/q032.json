@@ -1,0 +1,14 @@
+{
+  "id": "q032",
+  "type": "single_choice",
+  "question": "Epoch là gì?",
+  "options": [
+    { "text": "A. Một lần cập nhật trọng số duy nhất.", "is_correct": false },
+    { "text": "B. Số lượng mẫu dữ liệu trong một lần huấn luyện.", "is_correct": false },
+    { "text": "C. Tốc độ học của mô hình.", "is_correct": false },
+    { "text": "D. Một lần toàn bộ tập dữ liệu huấn luyện được đưa qua mô hình một lượt", "is_correct": true }
+  ],
+  "answer": 3,
+  "images": [],
+  "explanation": ""
+}

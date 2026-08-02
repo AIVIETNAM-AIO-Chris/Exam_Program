@@ -1,0 +1,14 @@
+{
+  "id": "q018",
+  "type": "single_choice",
+  "question": "Trong tính toán thống kê, tại sao công thức tính Phương sai mẫu lại phải chia cho bậc tự do (n−1) thay vì chia cho toàn bộ số lượng mẫu n?",
+  "options": [
+    { "text": "A. Vì (n−1) làm cho phép tính đơn giản và nhanh hơn đối với máy tính.", "is_correct": false },
+    { "text": "B. Vì chia cho n luôn tạo ra giá trị âm cho phương sai.", "is_correct": false },
+    { "text": "C. Vì nếu chia cho n, chúng ta sẽ phương sai mẫu sẽ luôn nhỏ hơn phương sai thực của quần thể.", "is_correct": true },
+    { "text": "D. Vì đó là quy ước riêng cho các tập dữ liệu có kích thước dưới 30 mẫu.", "is_correct": false }
+  ],
+  "answer": 2,
+  "images": [],
+  "explanation": ""
+}
