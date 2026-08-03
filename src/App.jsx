@@ -5,7 +5,7 @@ import Sidebar from './components/Sidebar';
 import QuestionCard from './components/QuestionCard';
 import AnswerInput from './components/AnswerInput';
 import ResultScreen from './components/ResultScreen';
-import { ChevronLeft, ChevronRight, Play } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Play, Flag, Trash2 } from 'lucide-react';
 
 const config = configData || {
   exam_title: "Kiểm tra Đại số tuyến tính",
@@ -80,10 +80,28 @@ function prepareQuestionsData(rawQuestions, config) {
   return questions;
 }
 
+function checkIsAnswered(q, ans) {
+  if (!q || ans === undefined || ans === null) return false;
+  if (q.type === 'single_choice') {
+    return typeof ans === 'number';
+  }
+  if (q.type === 'multiple_choice') {
+    return Array.isArray(ans) && ans.length > 0;
+  }
+  if (q.type === 'essay_text') {
+    return Boolean((ans.text && ans.text.trim() !== '') || ans.image);
+  }
+  if (q.type === 'essay_code') {
+    return typeof ans === 'string' && ans.trim() !== '' && ans.trim() !== q.starter_code?.trim();
+  }
+  return false;
+}
+
 export default function App() {
   const [questions, setQuestions] = useState([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [flaggedQuestions, setFlaggedQuestions] = useState({});
   const [timeLeft, setTimeLeft] = useState(config.timer_minutes * 60);
   const [examStarted, setExamStarted] = useState(false);
   const [examSubmitted, setExamSubmitted] = useState(false);
@@ -127,6 +145,15 @@ export default function App() {
         }
       }
 
+      const storedFlags = sessionStorage.getItem('exam_saved_flags');
+      if (storedFlags) {
+        try {
+          setFlaggedQuestions(JSON.parse(storedFlags));
+        } catch (e) {
+          console.error("Lỗi phục hồi cờ đánh dấu", e);
+        }
+      }
+
       timerRef.current = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
@@ -150,10 +177,28 @@ export default function App() {
     sessionStorage.setItem('exam_saved_answers', JSON.stringify(newAnswers));
   };
 
+  const handleClearAnswer = (idx) => {
+    const newAnswers = { ...answers };
+    delete newAnswers[idx];
+    setAnswers(newAnswers);
+    sessionStorage.setItem('exam_saved_answers', JSON.stringify(newAnswers));
+  };
+
+  const toggleFlag = (idx) => {
+    const updatedFlags = {
+      ...flaggedQuestions,
+      [idx]: !flaggedQuestions[idx]
+    };
+    setFlaggedQuestions(updatedFlags);
+    sessionStorage.setItem('exam_saved_flags', JSON.stringify(updatedFlags));
+  };
+
   const startExam = () => {
     setAnswers({});
+    setFlaggedQuestions({});
     setCurrentIdx(0);
     sessionStorage.removeItem('exam_saved_answers');
+    sessionStorage.removeItem('exam_saved_flags');
     setExamStarted(true);
     sessionStorage.setItem('exam_start_time', Date.now().toString());
   };
@@ -181,12 +226,14 @@ export default function App() {
       setExamSubmitted(true);
       sessionStorage.removeItem('exam_start_time');
       sessionStorage.removeItem('exam_saved_answers');
+      sessionStorage.removeItem('exam_saved_flags');
     }
   };
 
   const restartExam = () => {
     if (window.confirm('Bạn muốn làm lại bài thi từ đầu?')) {
       setAnswers({});
+      setFlaggedQuestions({});
       setCurrentIdx(0);
       setTimeLeft(config.timer_minutes * 60);
       setExamSubmitted(false);
@@ -265,6 +312,8 @@ export default function App() {
 
   // --- RENDER 3: MÀN HÌNH LÀM BÀI (EXAM SCREEN) ---
   const currentQuestion = questions[currentIdx];
+  const isFlagged = !!flaggedQuestions[currentIdx];
+  const isAnswered = checkIsAnswered(currentQuestion, answers[currentIdx]);
 
   return (
     <div className="app-container">
@@ -273,6 +322,7 @@ export default function App() {
         questions={questions}
         currentIdx={currentIdx}
         answers={answers}
+        flaggedQuestions={flaggedQuestions}
         timeLeft={timeLeft}
         totalTime={config.timer_minutes * 60}
         onQuestionSelect={setCurrentIdx}
@@ -287,6 +337,20 @@ export default function App() {
               Câu hỏi {currentIdx + 1} / {questions.length}
             </span>
           </div>
+
+          <button
+            type="button"
+            className={`btn btn-flag ${isFlagged ? 'flagged' : ''}`}
+            onClick={() => toggleFlag(currentIdx)}
+            title={isFlagged ? 'Bỏ gắn cờ câu hỏi này' : 'Gắn cờ câu hỏi này để xem lại sau'}
+          >
+            <Flag 
+              size={16} 
+              fill={isFlagged ? 'var(--danger)' : 'none'} 
+              color={isFlagged ? 'var(--danger)' : 'currentColor'} 
+            />
+            <span>{isFlagged ? 'Đã gắn cờ' : 'Gắn cờ'}</span>
+          </button>
         </div>
 
         <div className="content-body" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
@@ -299,7 +363,19 @@ export default function App() {
 
             {/* Vùng nhập đáp án/trả lời */}
             <div style={{ marginTop: '1rem', marginBottom: '2rem' }}>
-              <p style={{ fontWeight: 'bold', color: 'var(--text-secondary)', marginBottom: '0.5rem', fontSize: '13pt' }}>Bài làm của bạn:</p>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                <p style={{ fontWeight: 'bold', color: 'var(--text-secondary)', fontSize: '13pt', margin: 0 }}>Bài làm của bạn:</p>
+                {isAnswered && (
+                  <button
+                    type="button"
+                    className="btn btn-clear-answer"
+                    onClick={() => handleClearAnswer(currentIdx)}
+                    title="Xoá đáp án đã chọn cho câu này"
+                  >
+                    <Trash2 size={14} /> Xoá đáp án
+                  </button>
+                )}
+              </div>
               <AnswerInput 
                 question={currentQuestion}
                 value={answers[currentIdx]}

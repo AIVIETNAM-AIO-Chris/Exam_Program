@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { renderMarkdownWithMath } from '../utils/katex-renderer';
-import { Download, FileText, ChevronDown } from 'lucide-react';
+import { Download, FileText, ChevronDown, FileSpreadsheet } from 'lucide-react';
+import { exportEssayToExcel } from '../utils/excel-exporter';
 
 export default function ResultScreen({ questions, answers, onRestart, config, studentName }) {
   // 1. Tính toán điểm số (chỉ tính cho trắc nghiệm)
@@ -140,8 +141,18 @@ export default function ResultScreen({ questions, answers, onRestart, config, st
     URL.revokeObjectURL(url);
   };
 
+  useEffect(() => {
+    // Tự động tải về phần tự luận ở dạng file xlsx khi nộp bài
+    exportEssayToExcel(questions, answers, studentName);
+  }, []);
+
   // 3. Hàm xuất file phần tự luận riêng (để gửi cho giảng viên chấm)
   const handleExportEssay = (format) => {
+    if (format === 'xlsx') {
+      exportEssayToExcel(questions, answers, studentName);
+      return;
+    }
+
     const essayData = questions
       .map((q, idx) => ({ q, ans: answers[idx] }))
       .filter(({ q }) => q.type === 'essay_text' || q.type === 'essay_code')
@@ -260,10 +271,13 @@ export default function ResultScreen({ questions, answers, onRestart, config, st
           <>
             <p style={{ fontWeight: 'bold', marginTop: '0.5rem', fontSize: '12pt', color: 'var(--text-secondary)' }}>Tải riêng phần tự luận (gửi cho giảng viên chấm bài):</p>
             <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-              <button type="button" className="btn btn-primary" onClick={() => handleExportEssay('txt')} style={{ fontSize: '12pt', padding: '0.4rem 0.8rem' }}>
+              <button type="button" className="btn btn-primary" onClick={() => handleExportEssay('xlsx')} style={{ fontSize: '12pt', padding: '0.4rem 0.8rem' }}>
+                <FileSpreadsheet size={14} /> Tải tự luận (.XLSX)
+              </button>
+              <button type="button" className="btn btn-secondary" onClick={() => handleExportEssay('txt')} style={{ fontSize: '12pt', padding: '0.4rem 0.8rem' }}>
                 <FileText size={14} /> Tải tự luận (.TXT)
               </button>
-              <button type="button" className="btn btn-primary" onClick={() => handleExportEssay('json')} style={{ fontSize: '12pt', padding: '0.4rem 0.8rem' }}>
+              <button type="button" className="btn btn-secondary" onClick={() => handleExportEssay('json')} style={{ fontSize: '12pt', padding: '0.4rem 0.8rem' }}>
                 <Download size={14} /> Tải tự luận (.JSON)
               </button>
             </div>

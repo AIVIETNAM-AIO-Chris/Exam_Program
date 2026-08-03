@@ -177,6 +177,54 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--accent);
 }
 
+/* Button Gắn cờ */
+.btn-flag {
+  font-size: 11pt;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-md);
+  background-color: #ffffff;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-flag:hover {
+  background-color: var(--danger-light);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.btn-flag.flagged {
+  background-color: var(--danger-light);
+  border-color: var(--danger);
+  color: var(--danger);
+  font-weight: bold;
+}
+
+/* Button Xóa đáp án */
+.btn-clear-answer {
+  font-size: 11pt;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--danger-light);
+  color: var(--danger);
+  border: 1px solid rgba(198, 40, 40, 0.3);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all var(--transition-fast);
+}
+
+.btn-clear-answer:hover {
+  background-color: #ffcdd2;
+  border-color: var(--danger);
+}
+
 /* Sidebar Question Grid - Câu đã làm chuyển màu xanh lá */
 .question-grid {
   display: grid;
@@ -220,8 +268,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .grid-item.flagged {
-  border-color: var(--warning);
-  background-color: var(--warning-light);
+  border-color: var(--danger);
+  background-color: var(--danger-light);
 }
 
 /* Option List Items */

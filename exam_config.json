@@ -1,6 +1,6 @@
 {
     "exam_title": "Kiểm tra Neural Network",
-    "timer_minutes": 60,
+    "timer_minutes": 90,
     "shuffle_questions": true,
     "shuffle_options": true,
     "show_result_after_submit": true,

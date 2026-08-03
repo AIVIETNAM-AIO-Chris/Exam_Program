@@ -1,10 +1,11 @@
 import React from 'react';
-import { Clock, Send } from 'lucide-react';
+import { Clock, Send, Flag } from 'lucide-react';
 
 export default function Sidebar({
   questions,
   currentIdx,
   answers,
+  flaggedQuestions = {},
   timeLeft,
   totalTime,
   onQuestionSelect,
@@ -35,7 +36,7 @@ export default function Sidebar({
       return Array.isArray(ans) && ans.length > 0;
     }
     if (q.type === 'essay_text') {
-      return ans.text && ans.text.trim() !== '';
+      return Boolean((ans.text && ans.text.trim() !== '') || ans.image);
     }
     if (q.type === 'essay_code') {
       return typeof ans === 'string' && ans.trim() !== '' && ans.trim() !== q.starter_code?.trim();
@@ -72,6 +73,12 @@ export default function Sidebar({
             <span style={{ display: 'inline-block', width: '12px', height: '12px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--success)' }} />
             <span>Đã làm (Xanh lá)</span>
           </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '12px', height: '12px', color: 'var(--danger)' }}>
+              <Flag size={12} fill="var(--danger)" />
+            </span>
+            <span>Đã gắn cờ (Đỏ)</span>
+          </div>
         </div>
       </div>
 
@@ -84,10 +91,12 @@ export default function Sidebar({
           {questions.map((q, idx) => {
             const isCurrent = idx === currentIdx;
             const isAnswered = isQuestionAnswered(idx, q);
+            const isFlagged = !!flaggedQuestions[idx];
             
             let itemClass = 'grid-item';
             if (isCurrent) itemClass += ' active';
-            if (isAnswered) itemClass += ' answered'; // Sẽ chuyển sang màu xanh lá theo yêu cầu 3
+            if (isAnswered) itemClass += ' answered';
+            if (isFlagged) itemClass += ' flagged';
 
             return (
               <button
@@ -95,9 +104,18 @@ export default function Sidebar({
                 type="button"
                 className={itemClass}
                 onClick={() => onQuestionSelect(idx)}
-                title={`Câu ${idx + 1}`}
+                title={`Câu ${idx + 1}${isFlagged ? ' (Đã gắn cờ)' : ''}`}
+                style={{ position: 'relative' }}
               >
                 {idx + 1}
+                {isFlagged && (
+                  <Flag 
+                    size={10} 
+                    fill="var(--danger)" 
+                    color="var(--danger)" 
+                    style={{ position: 'absolute', top: '1px', right: '1px' }} 
+                  />
+                )}
               </button>
             );
           })}
